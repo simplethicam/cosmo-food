@@ -1,0 +1,678 @@
+{
+  "pages": {
+    "login": {
+      "title": "Accedi al tuo account",
+      "signin": "Accedi",
+      "signup": "Registrati",
+      "divider": "oppure",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Indirizzo email non valido"
+      },
+      "buttons": {
+        "submit": "Login",
+        "forgotPassword": "Hai dimenticato la password?",
+        "noAccount": "Non hai un account?",
+        "rememberMe": "Ricordami"
+      }
+    },
+    "forgotPassword": {
+      "title": "Hai dimenticato la tua password?",
+      "fields": {
+        "email": "Email"
+      },
+      "errors": {
+        "validEmail": "Indirizzo email non valido"
+      },
+      "buttons": {
+        "submit": "Invia istruzioni di reset"
+      }
+    },
+    "register": {
+      "title": "Registrati per il tuo account",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "validEmail": "Indirizzo email non valido"
+      },
+      "buttons": {
+        "submit": "Registrati",
+        "haveAccount": "Hai già un account?"
+      }
+    },
+    "updatePassword": {
+      "title": "Aggiorna password",
+      "fields": {
+        "password": "Nuova Password",
+        "confirmPassword": "Conferma nuova password"
+      },
+      "errors": {
+        "confirmPasswordNotMatch": "Le password non corrispondono"
+      },
+      "buttons": {
+        "submit": "Aggiorna"
+      }
+    },
+    "error": {
+      "404": "Spiacenti, la pagina che hai visitato non esiste.",
+      "info": "Potresti aver dimenticato di aggiungere il componente {{action}} alla risorsa {{resource}}.",
+      "resource404": "Sei sicuro di aver creato la risorsa {{resource}}?",
+      "backHome": "Torna alla Home"
+    }
+  },
+  "actions": {
+    "list": "Elenca",
+    "create": "Crea",
+    "edit": "Modifica",
+    "show": "Mostra",
+    "delete": "Elimina",
+    "cancel": "Annulla"
+  },
+  "buttons": {
+    "add": "Aggiungi",
+    "ready": "Pronto",
+    "open": "Apri",
+    "addProduct": "Aggiungi prodotto",
+    "escape": "Esci",
+    "create": "Crea",
+    "save": "Salva",
+    "logout": "Esci",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "cancel": "Annulla",
+    "confirm": "Sei sicuro?",
+    "filter": "Filtra",
+    "clear": "Pulisci",
+    "refresh": "Aggiorna",
+    "show": "Mostra",
+    "undo": "Annulla",
+    "import": "Importa",
+    "export": "Esporta",
+    "clone": "Clona",
+    "accept": "Accetta",
+    "acceptAll": "Accetta Tutto",
+    "reject": "Rifiuta",
+    "rejectAll": "Rifiuta Tutto",
+    "nextStep": "Prossimo",
+    "previousStep": "Prec",
+    "close": "Chiuso"
+  },
+  "loading": "Caricamento",
+  "tags": {
+    "clone": "Clona"
+  },
+  "table": {
+    "actions": "Azioni",
+    "inTotal": "in totale"
+  },
+  "search": {
+    "placeholder": "Cerca",
+    "more": "di più"
+  },
+  "status": {
+    "enable": "Abilita",
+    "disable": "Disabilita"
+  },
+  "warnWhenUnsavedChanges": "Sei sicuro di voler lasciare? Hai delle modifiche non salvate.",
+  "notifications": {
+    "success": "Riuscito",
+    "error": "Errore (codice stato: {{statusCode}})",
+    "undoable": "Hai {{seconds}} secondi per annullare",
+    "createSuccess": "Creazione di {{resource}} avvenuta con successo",
+    "createError": "Errore nella creazione di {{resource}} (codice stato: {{statusCode}})",
+    "deleteSuccess": "Eliminazione di {{resource}} avvenuta con successo",
+    "deleteError": "Errore durante l'eliminazione di {{resource}} (codice stato: {{statusCode}})",
+    "editSuccess": "Modifica di {{resource}} avvenuta con successo",
+    "editError": "Errore durante la modifica di {{resource}} (codice stato: {{statusCode}})",
+    "importProgress": "Importazione: {{processed}}/{{total}}"
+  },
+  "tables": {
+    "tables": "Tavoli",
+    "titles": {
+      "list": "Lista dei Tavoli"
+    },
+    "fields": {
+      "id": "ID",
+      "name": "Nome",
+      "position": "Nome della stanza",
+      "isActive": {
+        "label": "Stato",
+        "true": "Abilitato",
+        "false": "Disabilitato"
+      }
+    },
+    "actions": {
+      "create": "Nuovo tavolo",
+      "add": "Aggiungi",
+      "edit": "Modifica tavolo"
+    }
+  },
+  "categories": {
+    "categories": "Categorie",
+    "titles": {
+      "list": "Categorie"
+    },
+    "fields": {
+      "id": "ID",
+      "title": "Titolo",
+      "products": "Prodotti",
+      "isActive": {
+        "label": "Stato",
+        "true": "Abilitato",
+        "false": "Disabilitato"
+      }
+    },
+    "actions": {
+      "create": "Nuova categoria",
+      "edit": "Modifica categoria"
+    }
+  },
+  "couriers": {
+    "couriers": "Corrieri",
+    "titles": {
+      "create": "Crea Corriere",
+      "list": "Corrieri",
+      "edit": "Modifica Corriere"
+    },
+    "fields": {
+      "id": "ID",
+      "avatar": {
+        "label": "Avatar",
+        "description": "Clicca o trascina l'immagine dell'avatar in quest'area per caricare."
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Inserisci il nome del corriere"
+      },
+      "surname": {
+        "label": "Cognome",
+        "placeholder": "Inserisci il cognome del corriere"
+      },
+      "gender": {
+        "label": "Genere",
+        "male": "Maschio",
+        "female": "Femmina"
+      },
+      "gsm": {
+        "label": "Gsm",
+        "placeholder": "Inserisci il gsm del corriere"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Inserisci l'email del corriere"
+      },
+      "address": {
+        "label": "Indirizzo",
+        "placeholder": "Inserisci l'indirizzo del corriere"
+      },
+      "createdAt": "Creato il",
+      "status": {
+        "label": "Stato",
+        "Available": "Disponibile",
+        "Offline": "Offline",
+        "On delivery": "In consegna"
+      },
+      "vehicleType": {
+        "label": "Tipo di Veicolo",
+        "placeholder": "Inserisci il tipo di veicolo"
+      },
+      "licensePlate": {
+        "label": "ID Veicolo",
+        "placeholder": "Inserisci l'ID del veicolo",
+        "patternMessage": "Inserisci un ID veicolo valido. Esempio: ABC 123"
+      },
+      "rating": {
+        "label": "Valutazione",
+        "placeholder": "Inserisci la valutazione"
+      },
+      "images": {
+        "label": "Immagini",
+        "description": "Aggiungi immagine utente",
+        "validation": "deve essere 480x480 px"
+      },
+      "store": {
+        "label": "Negozio",
+        "placeholder": "Seleziona Negozio"
+      },
+      "vehicle": {
+        "label": "Veicolo",
+        "placeholder": "Seleziona Veicolo"
+      },
+      "accountNumber": {
+        "label": "Numero di Conto",
+        "placeholder": "Inserisci il numero di conto"
+      }
+    },
+    "filter": {
+      "title": "Filtri",
+      "name": {
+        "label": "Nome",
+        "placeholder": "Cerca Nome"
+      },
+      "licensePlate": {
+        "label": "Nome",
+        "placeholder": "Cerca Nome"
+      },
+      "gsm": {
+        "label": "Gsm",
+        "placeholder": "Cerca Gsm"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Cerca Email"
+      },
+      "submit": "Filtra"
+    },
+    "steps": {
+      "personal": "Personale",
+      "company": "Azienda",
+      "vehicle": "Veicolo"
+    },
+    "actions": {
+      "add": "Aggiungi",
+      "edit": "Modifica"
+    }
+  },
+  "dashboard": {
+    "title": "Pannello di Controllo",
+    "overview": {
+      "title": "Panoramica"
+    },
+    "filter": {
+      "title": "Filtri",
+      "date": {
+        "lastWeek": "Ultima Settimana",
+        "lastMonth": "Ultimo Mese",
+        "lastYear": "Ultimo Anno"
+      }
+    },
+    "deliveryMap": {
+      "title": "Mappa delle Consegne"
+    },
+    "orders": {
+      "title": "Ordini"
+    },
+    "revenue": {
+      "title": "Entrate"
+    },
+    "totalSales": {
+      "title": "Vendite Totali"
+    },
+    "dailyRevenue": {
+      "title": "Entrate Giornaliere"
+    },
+    "dailyOrders": {
+      "title": "Ordini Giornalieri"
+    },
+    "newCustomers": {
+      "title": "Nuovi Clienti"
+    },
+    "timeline": {
+      "title": "Timeline",
+      "orderStatuses": {
+        "pending": "Ordine in preparazione",
+        "ready": "Ordine pronto",
+        "on the way": "Ordine in consegna",
+        "delivered": "Ordine consegnato",
+        "cancelled": "Ordine annullato"
+      }
+    },
+    "recentOrders": {
+      "title": "Ordini Recenti"
+    },
+    "trendingMenus": {
+      "title": "Menù di Tendenza del Giorno"
+    },
+    "trendingProducts": {
+      "title": "Prodotti di Tendenza"
+    }
+  },
+  "enum": {
+    "orderStatuses": {
+      "Pending": "In sospeso",
+      "Ready": "Pronto",
+      "On The Way": "In consegna",
+      "Delivered": "Consegnato",
+      "Cancelled": "Annullato"
+    }
+  },
+  "orders": {
+    "orders": "Ordini",
+    "order": "Ordine",
+    "neworder": "Nuovo ordine",
+    "titles": {
+      "deliveryMap": "Mappa delle Consegne",
+      "orderDetails": "Dettagli dell'ordine",
+      "products": "Prodotti",
+      "list": "Ordini",
+      "show": "Ordine"
+    },
+    "fields": {
+      "orderNumber": "Ordine #",
+      "orderID": "ID Ordine",
+      "status": "Stato",
+      "store": "Negozio",
+      "user": "Utente",
+      "products": "Prodotti",
+      "createdAt": "Creato il",
+      "amount": "Quantità",
+      "itemsAmount": "{{amount}} articoli",
+      "order": "Ordine",
+      "customer": "Cliente",
+      "courier": "Corriere",
+      "phone": "Telefono",
+      "deliveryTime": "Orario di Consegna",
+      "waiter": "Cameriere",
+      "description": "Descrizione"
+    },
+    "filter": {
+      "title": "Filtri",
+      "search": {
+        "label": "Cerca",
+        "placeholder": "Numero Ordine, Utente, ecc."
+      },
+      "status": {
+        "label": "Stato",
+        "placeholder": "Stato Ordine"
+      },
+      "store": {
+        "label": "Negozio",
+        "placeholder": "Cerca Negozi"
+      },
+      "user": {
+        "label": "Utente",
+        "placeholder": "Cerca Utenti"
+      },
+      "customer": {
+        "label": "Cliente",
+        "placeholder": "Cerca Clienti"
+      },
+      "createdAt": {
+        "label": "Creato il"
+      },
+      "orderNumber": {
+        "label": "Numero Ordine",
+        "placeholder": "Cerca Numero Ordine"
+      },
+      "submit": "Filtra",
+      "allStatuses": "Tutto"
+    },
+    "courier": {
+      "deliveryTime": "Orario di Consegna",
+      "phone": "Telefono"
+    },
+    "deliverables": {
+      "deliverables": "Consegne",
+      "fields": {
+        "items": "Articoli",
+        "quantity": "Quantità",
+        "price": "Prezzo",
+        "total": "Totale"
+      },
+      "mainTotal": "TOTALE"
+    },
+    "status": {
+      "new": "Nuovo",
+      "ready": "Pronto",
+      "evadi": "Chiudi",
+      "OPEN": "Aperte",
+      "READY": "Pronto",
+      "CLOSE": "Chiuso",
+      "CLOSED": "Chiuso"
+    },
+    "total": "Totale"
+  },
+  "products": {
+    "products": "Prodotti",
+    "titles": {
+      "list": "Prodotti",
+      "create": "Crea Prodotto",
+      "edit": "Modifica Prodotto"
+    },
+    "fields": {
+      "categoryId": "Categoria",
+      "id": "ID",
+      "name": "Nome",
+      "description": "Descrizione",
+      "isActive": {
+        "label": "Stato",
+        "true": "Disponibile",
+        "false": "Non disponibile"
+      },
+      "price": "Prezzo",
+      "category": "Categoria",
+      "quantity": "Quantità",
+      "currency": "£",
+      "images": {
+        "label": "Immagine",
+        "description": "Carica Immagine",
+        "validation": "deve essere 1080x1080 px"
+      },
+      "createdAt": "Creato il"
+    },
+    "filter": {
+      "title": "Filtri",
+      "allCategories": {
+        "label": "Tutte le Categorie",
+        "placeholder": "Tutte le Categorie"
+      },
+      "id": {
+        "label": "ID",
+        "placeholder": "Cerca ID"
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Cerca Nome"
+      },
+      "description": {
+        "label": "Descrizione",
+        "placeholder": "Cerca Descrizione"
+      },
+      "category": {
+        "label": "Categoria",
+        "placeholder": "Cerca Categoria"
+      },
+      "createdAt": {
+        "label": "Creato il"
+      },
+      "isActive": {
+        "label": "Stato",
+        "placeholder": "Seleziona Stato",
+        "true": "Disponibile",
+        "false": "Non disponibile"
+      }
+    },
+    "actions": {
+      "create": "Nuovo prodotto",
+      "add": "crea",
+      "edit": "Modifica prodotto"
+    }
+  },
+  "reviews": {
+    "reviews": "Recensioni",
+    "titles": {
+      "list": "Recensioni"
+    },
+    "fields": {
+      "user": "Utente",
+      "orderId": "Ordine",
+      "review": "Recensione",
+      "rating": "Valutazione"
+    }
+  },
+  "stores": {
+    "stores": "Negozi",
+    "titles": {
+      "create": "Crea Negozio",
+      "edit": "Modifica Negozio",
+      "list": "Negozi",
+      "show": "Mostra Negozio"
+    },
+    "fields": {
+      "id": "ID Negozio",
+      "title": "Titolo",
+      "isActive": {
+        "label": "Stato",
+        "placeholder": "Seleziona Stato",
+        "true": "Aperto",
+        "false": "Chiuso"
+      },
+      "createdAt": "Creato il",
+      "address": "Indirizzo",
+      "email": "Email",
+      "gsm": "Telefono"
+    },
+    "filter": {
+      "id": {
+        "label": "ID",
+        "placeholder": "Cerca ID"
+      },
+      "title": {
+        "label": "Titolo",
+        "placeholder": "Cerca Titolo"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Cerca Email"
+      },
+      "gsm": {
+        "label": "Gsm",
+        "placeholder": "Cerca Gsm"
+      },
+      "search": {
+        "label": "Cerca",
+        "placeholder": "Nome, Cognome, gsm, ecc."
+      },
+      "createdAt": {
+        "label": "Creato il"
+      },
+      "isActive": {
+        "label": "Stato",
+        "placeholder": "Seleziona Stato",
+        "true": "Aperto",
+        "false": "Chiuso"
+      },
+      "submit": "Filtra"
+    },
+    "buttons": {
+      "editProducts": "Modifica Prodotti",
+      "addProduct": "Aggiungi Prodotto",
+      "outOfStock": "Esaurito",
+      "edit": "Modifica Prodotto"
+    },
+    "selectLocation": "Scegli la posizione del negozio sulla mappa",
+    "storeProducts": "Prodotti del Negozio",
+    "tagFilterDescription": "Usa i tag per filtrare la tua ricerca",
+    "all": "Tutti",
+    "productSearch": "Ricerca Prodotto",
+    "addNewStore": "Aggiungi Nuovo Negozio"
+  },
+  "customers": {
+    "fields": {
+      "companyName": "Nome Azienda",
+      "email": "Email",
+      "mobile": "Cellulare",
+      "address": "Indirizzo",
+      "vatId": "ID IVA",
+      "name": "Nome",
+      "lastname": "Cognome",
+      "isActive": "Stato",
+      "phone": "Telefono",
+      "gender": "Genere",
+      "deleted": "Eliminato",
+      "sdiCode": "Codice SDI",
+      "pec": "PEC",
+      "fiscalCode": "Codice Fiscale",
+      "type": "Tipo"
+    },
+    "createTitle": "Nuovo cliente",
+    "editTitle": "Modifica cliente",
+    "customers": "Clienti"
+  },
+  "users": {
+    "users": "Utenti",
+    "titles": {
+      "edit": "Modifica Cliente",
+      "list": "Clienti",
+      "show": "Dettaglio Cliente"
+    },
+    "fields": {
+      "id": "ID",
+      "email": "Email",
+      "familyName": "Cognome",
+      "password": "Password",
+      "avatar": {
+        "label": "Avatar",
+        "description": "Clicca o trascina l'immagine dell'avatar in quest'area per caricare."
+      },
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "name": "Nome",
+      "gender": {
+        "label": "Genere",
+        "Male": "Maschio",
+        "Female": "Femmina"
+      },
+      "gsm": "Numero Gsm",
+      "createdAt": "Creato il",
+      "addresses": "Indirizzi",
+      "isActive": {
+        "label": "Stato",
+        "true": "Attivo",
+        "false": "Inattivo"
+      }
+    },
+    "filter": {
+      "title": "Filtri",
+      "id": {
+        "label": "ID",
+        "placeholder": "Cerca ID"
+      },
+      "name": {
+        "label": "Nome",
+        "placeholder": "Cerca Nome"
+      },
+      "gsm": {
+        "label": "Gsm",
+        "placeholder": "Cerca Gsm"
+      },
+      "search": {
+        "label": "Cerca",
+        "placeholder": "Nome, Cognome, gsm, ecc."
+      },
+      "createdAt": {
+        "label": "Creato il"
+      },
+      "gender": {
+        "label": "Genere",
+        "placeholder": "Genere",
+        "male": "Maschio",
+        "female": "Femmina"
+      },
+      "isActive": {
+        "label": "Attivo",
+        "placeholder": "Seleziona Stato",
+        "true": "Sì",
+        "false": "No"
+      },
+      "submit": "Filtra"
+    },
+    "addresses": {
+      "addresses": "Indirizzi",
+      "address": "Indirizzo"
+    },
+    "createTitle": "Nuovo cliente"
+  },
+  "errors": {
+    "minLength": "La lunghezza minima è {{min}}",
+    "maxLength": "La lunghezza massima è {{max}}",
+    "required": {
+      "field": "Questo campo è obbligatorio"
+    }
+  }
+}
