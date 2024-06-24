@@ -1,9 +1,9 @@
-name: Deploy to S3
+name: Deploy Cosmo DEVELOP
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
