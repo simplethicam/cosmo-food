@@ -24,6 +24,9 @@ jobs:
       - name: Clean output directory
         run: rm -rf dist/
 
+      - name: Compile TypeScript files
+        run: npx tsc
+
       - name: Build project
         run: npm run build
 
