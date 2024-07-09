@@ -83,7 +83,7 @@ export const OrderEdit = () => {
       const updatedOrder = {
         ...order,
         products: updatedProducts,
-        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0).toFixed(2))
+        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0)/*.toFixed(2)*/)
       };
 
       setOrder(updatedOrder);
@@ -104,7 +104,6 @@ export const OrderEdit = () => {
   const record = queryResult.data?.data;
 
   useEffect(() => {
-    console.log("Query Result:", queryResult);
   }, [queryResult]);
 
   const { mutate } = useUpdate();
@@ -142,12 +141,12 @@ export const OrderEdit = () => {
 
   const totalAmount = useMemo(() => {
     if (!order || !order.products) return 0;
-    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2);
+    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
   }, [order]);
 
   const renderButtons = () => {
-    switch (order?.flowStatus) {
-      case "OPEN":
+    switch (order?.flowStatus.toUpperCase()) {
+      case "NEW":
         return (
           <Stack key="actions" direction="row" spacing="8px">
             <Button
@@ -155,7 +154,7 @@ export const OrderEdit = () => {
               size="small"
               color="warning"
               startIcon={<AccessAlarmIcon />}
-              onClick={() => handleMutate("READY")}
+              onClick={() => handleMutate("ready")}
             >
               {t("buttons.ready")}
             </Button>
@@ -184,7 +183,7 @@ export const OrderEdit = () => {
               size="small"
               color="success"
               startIcon={<PointOfSaleIcon />}
-              onClick={() => handleMutate("CLOSED")}
+              onClick={() => handleMutate("close")}
             >
               {t("buttons.close")}
             </Button>
@@ -205,7 +204,7 @@ export const OrderEdit = () => {
             </Button>
           </Stack>
         );
-      case "CLOSED":
+      case "CLOSE":
         return (
           <Stack key="actions" direction="row" spacing="8px">
             <Button
@@ -268,21 +267,22 @@ export const OrderEdit = () => {
       >
         <Grid container spacing={3}>
           <Grid xs={12} md={6} lg={8} height="max-content">
-            <Button
-              variant="outlined"
-              size="small"
-              color="info"
-              startIcon={<AddIcon />}
-              onClick={handleClickOpen}
-            >
-              {t("buttons.addProduct")}
-            </Button>
             <Paper
               sx={{
                 marginTop: theme.spacing(3),
                 paddingBottom: theme.spacing(2),
               }}
             >
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                startIcon={<AddIcon />}
+                onClick={handleClickOpen}
+                sx={{ marginBottom: theme.spacing(2), marginLeft: theme.spacing(2), marginTop: theme.spacing(2) }}
+              >
+                {t("buttons.addProduct")}
+              </Button>
               <OrderProducts order={order} />
               <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1} sx={{ marginRight: theme.spacing(2), marginTop: theme.spacing(2) }}>
                 <Typography variant="h6">

@@ -106,7 +106,7 @@ export const ProductAdd: React.FC<ProductAddProps> = ({ open, onClose, order }) 
             <ListItem key={product.id} disablePadding>
               <ListItemText
                 primary={product.name}
-                secondary={`Price: €${product.price.toFixed(2)}`}
+                secondary={`Price: €${product.price/*.toFixed(2)*/}`}
               />
               <Box display="flex" alignItems="center">
                 <IconButton

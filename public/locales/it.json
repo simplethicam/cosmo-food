@@ -100,7 +100,7 @@
     "rejectAll": "Rifiuta Tutto",
     "nextStep": "Prossimo",
     "previousStep": "Prec",
-    "close": "Chiuso"
+    "close": "Chiudi"
   },
   "loading": "Caricamento",
   "tags": {
@@ -134,7 +134,7 @@
   "tables": {
     "tables": "Tavoli",
     "titles": {
-      "list": "Lista dei Tavoli"
+      "list": "Tabelle"
     },
     "fields": {
       "id": "ID",
@@ -458,7 +458,7 @@
     "filter": {
       "title": "Filtri",
       "allCategories": {
-        "label": "Tutte le Categorie",
+        "label": "Tutto",
         "placeholder": "Tutte le Categorie"
       },
       "id": {
@@ -597,9 +597,9 @@
   "users": {
     "users": "Utenti",
     "titles": {
-      "edit": "Modifica Cliente",
-      "list": "Clienti",
-      "show": "Dettaglio Cliente"
+      "edit": "Modifica utente",
+      "list": "Utenti",
+      "show": "Dettagli utente"
     },
     "fields": {
       "id": "ID",
@@ -666,7 +666,7 @@
       "addresses": "Indirizzi",
       "address": "Indirizzo"
     },
-    "createTitle": "Nuovo cliente"
+    "createTitle": "Nuovo utente"
   },
   "errors": {
     "minLength": "La lunghezza minima è {{min}}",

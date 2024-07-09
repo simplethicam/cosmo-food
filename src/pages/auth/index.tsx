@@ -2,9 +2,7 @@ import * as React from "react";
 import { AuthPage as MUIAuthPage, AuthProps } from "@refinedev/mui";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-import {
-  CosmofoodsLogoIcon,
-} from "../../components/icons/cosmofoods-logo";
+import { WhiteLogoBgIcon } from "../../components/icons";
 
 const authWrapperProps = {
   style: {
@@ -25,7 +23,7 @@ const renderAuthContent = (content: React.ReactNode) => {
           gap="12px"
           marginBottom="16px"
         >
-          <CosmofoodsLogoIcon
+          <WhiteLogoBgIcon
             style={{
               height: 90,
               color: "#fff",

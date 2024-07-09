@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useGo, useNavigation, useTranslate } from "@refinedev/core";
+import { useGo, useNavigation, useTranslate, useUpdate } from "@refinedev/core";
 import { NumberField, UseDataGridReturnType } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
@@ -14,6 +14,7 @@ type Props = {
 
 export const ProductListTable = (props: Props) => {
   const go = useGo();
+  const { mutate } = useUpdate();
   const { pathname } = useLocation();
   const { editUrl } = useNavigation();
   const t = useTranslate();
@@ -36,21 +37,12 @@ export const ProductListTable = (props: Props) => {
       {
         field: "name",
         headerName: t("products.fields.name"),
-        width: 200,
-        sortable: false,
-      },
-      {
-        field: "description",
-        headerName: t("products.fields.description"),
-        minWidth: 320,
         flex: 1,
-        sortable: false,
       },
       {
         field: "price",
         headerName: t("products.fields.price"),
-        width: 120,
-        sortable: false,
+        flex: 1,
         align: "right",
         headerAlign: "right",
         renderCell: function render({ row }) {
@@ -68,9 +60,7 @@ export const ProductListTable = (props: Props) => {
       {
         field: "category.title",
         headerName: t("products.fields.category"),
-        minWidth: 160,
-        sortable: false,
-        filterable: false,
+        flex: 1,
         renderCell: function render({ row }) {
           const category = props.categories.find(
             (category) => category.id === row.categoryId,
@@ -83,12 +73,13 @@ export const ProductListTable = (props: Props) => {
         field: "isActive", 
         headerName: t("products.fields.isActive.label"),
         minWidth: 136,
+        flex: 1,
         renderCell: function render({ row }) {
           return <ProductStatus value={row.isActive} />;
         },
       },
     ],
-    [t, props.categories, editUrl, go, pathname],
+    [t, mutate],
   );
 
   return (

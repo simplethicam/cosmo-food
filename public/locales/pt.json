@@ -134,7 +134,7 @@
   "tables": {
     "tables": "Tabelas",
     "titles": {
-      "list": "Lista de Tabelas"
+      "list": "Tabelas"
     },
     "fields": {
       "id": "ID",
@@ -458,7 +458,7 @@
     "filter": {
       "title": "Filtros",
       "allCategories": {
-        "label": "Todas as Categorias",
+        "label": "Todos",
         "placeholder": "Todas as Categorias"
       },
       "id": {
@@ -597,9 +597,9 @@
   "users": {
     "users": "Usuários",
     "titles": {
-      "edit": "Editar Cliente",
-      "list": "Clientes",
-      "show": "Detalhes do Cliente"
+      "edit": "Editar usuário",
+      "list": "Usuários",
+      "show": "Detalhes do usuário"
     },
     "fields": {
       "id": "ID",
@@ -666,7 +666,7 @@
       "addresses": "Endereços",
       "address": "Endereço"
     },
-    "createTitle": "Novo Cliente"
+    "createTitle": "Novo usuário"
   },
   "errors": {
     "minLength": "O comprimento mínimo é {{min}}",

@@ -448,7 +448,7 @@
     },
     "filter": {
       "allCategories": {
-        "label": "Alle Kategorien",
+        "label": "Alle",
         "placeholder": "Alle Kategorien"
       },
       "category": {
@@ -594,7 +594,7 @@
     },
     "tables": "Tische",
     "titles": {
-      "list": "Liste der Tabellen"
+      "list": "Tische"
     }
   },
   "tags": {
@@ -605,7 +605,7 @@
       "address": "Anschrift",
       "addresses": "Addresses"
     },
-    "createTitle": "new customer",
+    "createTitle": "Neuer Benutzer",
     "fields": {
       "addresses": "Addresses",
       "avatar": {
@@ -668,9 +668,9 @@
       "title": "Filter"
     },
     "titles": {
-      "edit": "Kunde bearbeiten",
-      "list": "customers",
-      "show": "Angaben zum Kunden"
+      "edit": "Benutzer bearbeiten",
+      "list": "Benutzer",
+      "show": "Benutzerdetails"
     },
     "users": "Benutzer"
   },

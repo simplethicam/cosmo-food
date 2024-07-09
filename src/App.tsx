@@ -37,14 +37,13 @@ import { UserCreate, UserEdit, UserList } from "./pages/users";
 import { dataProvider } from "./dataProvider";
 import { Authenticated, Refine } from "@refinedev/core";
 
-const TABLES_API_URL = "https://54drrqswze.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const PRODUCTS_API_URL = "https://hd0j3pgjr6.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const CATEGORIES_API_URL = "https://00jq791b7c.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const CUSTOMERS_API_URL = "https://jmusfkeazg.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const ORDERS_API_URL = "https://5zywtxj65j.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const USERS_API_URL = "https://3heesvctf5.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const COMPANIES_API_URL = "https://6tne77hov0.execute-api.eu-west-3.amazonaws.com/dev/v1";
-const API_URL = "https://api.finefoods.refine.dev";
+const TABLES_API_URL = import.meta.env.VITE_TABLES_API_URL;
+const PRODUCTS_API_URL = import.meta.env.VITE_PRODUCTS_API_URL;
+const CATEGORIES_API_URL = import.meta.env.VITE_CATEGORIES_API_URL;
+const CUSTOMERS_API_URL = import.meta.env.VITE_CUSTOMERS_API_URL;
+const ORDERS_API_URL = import.meta.env.VITE_ORDERS_API_URL;
+const USERS_API_URL = import.meta.env.VITE_USERS_API_URL;
+const COMPANIES_API_URL = import.meta.env.VITE_COMPANIES_API_URL;
 
 const App: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -58,7 +57,6 @@ const App: React.FC = () => {
     await authProvider.logout({});
     window.location.href = "/login";
   };
-  
 
   return (
     <BrowserRouter>
@@ -68,7 +66,7 @@ const App: React.FC = () => {
         <RefineSnackbarProvider>
           <Refine
             routerProvider={routerProvider}
-            dataProvider={dataProvider(API_URL)}
+            dataProvider={dataProvider()}
             authProvider={authProvider}
             i18nProvider={i18nProvider}
             options={{
