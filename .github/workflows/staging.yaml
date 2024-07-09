@@ -1,9 +1,9 @@
-name: Deploy SE Food DEVELOP
+name: Deploy SE Food STAGING
 
 on:
   push:
     branches:
-      - develop
+      - release
 
 jobs:
   build:
@@ -33,9 +33,9 @@ jobs:
       - name: Deploy to S3
         env:
           SOURCE_DIR: dist/
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_STAGING_REGION }}
+          S3_BUCKET_NAME: ${{ secrets.S3_STAGING_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_STAGING_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_STAGING_SECRET_ACCESS_KEY }}
         run: |
-          aws s3 sync dist/ s3://$S3_BUCKET_NAME --region $AWS_REGION --delete
+          aws s3 sync dist/ s3://$S3_STAGING_BUCKET_NAME --region $AWS_STAGING_REGION --delete
