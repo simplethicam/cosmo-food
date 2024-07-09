@@ -9,5 +9,4 @@ export * from "./refine-list-view";
 export * from "./drawer";
 export * from "./order";
 export * from "./category";
-export * from "./store";
 export * from "./courier";

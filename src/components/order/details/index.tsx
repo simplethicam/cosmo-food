@@ -12,7 +12,7 @@ import {
   FormHelperText,
   InputLabel
 } from "@mui/material";
-import { IOrder, ITable, IUser } from "../../../interfaces";
+import { IOrder, ITable, IUser, ICustomer } from "../../../interfaces";
 import { useEffect } from "react";
 
 type Props = {
@@ -25,9 +25,11 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
 
   const { data: tablesData } = useList<ITable>({ resource: "tables" });
   const { data: usersData } = useList<IUser>({ resource: "users" });
+  const { data: customersData } = useList<ICustomer>({ resource: "customers" });
 
   const tables = tablesData?.data ?? [];
   const users = usersData?.data ?? [];
+  const customers = customersData?.data ?? [];
 
   const {
     handleSubmit,
@@ -64,14 +66,39 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
     const data = watch();
     const updatedOrder: Partial<IOrder> = { ...order };
 
-    if (data.table?.id !== order.table.id) {
-      const selectedTable = tables.find(table => table.id === data.table.id);
+    if (data.table?.id !== order.table?.id) {
+      const selectedTable = tables.find(table => table.id === data.table?.id);
       if (selectedTable) {
         updatedOrder.table = { id: selectedTable.id, name: selectedTable.name, position: selectedTable.position };
       }
     }
 
-    if (data.createdBy?.id !== order.createdBy.id) {
+    if (data.customer?.id !== order.customer?.id) {
+      const selectedCustomer = customers.find(customer => customer.id === data.customer?.id);
+      if (selectedCustomer) {
+        updatedOrder.customer = {
+          id: selectedCustomer.id,
+          address: selectedCustomer.address,
+          companyName: selectedCustomer.companyName,
+          email: selectedCustomer.email,
+          fiscalCode: selectedCustomer.fiscalCode,
+          mobile: selectedCustomer.mobile,
+          pec: selectedCustomer.pec,
+          phone: selectedCustomer.phone,
+          sdiCode: selectedCustomer.sdiCode,
+          site: selectedCustomer.site,
+          vatId: selectedCustomer.vatId,
+          name: selectedCustomer.name,
+          gender: selectedCustomer.gender,
+          isActive: selectedCustomer.isActive,
+          lastname: selectedCustomer.lastname,
+          deleted: selectedCustomer.deleted,
+          type: selectedCustomer.type
+        };
+      }
+    }
+
+    if (data.createdBy?.id !== order.createdBy?.id) {
       const selectedUser = users.find(user => user.id === data.createdBy?.id);
       if (selectedUser) {
         updatedOrder.createdBy = {
@@ -99,12 +126,17 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
   };
 
   const getTable = () => {
-    const table = tables.find(table => table.id === order?.table.id);
+    const table = tables.find(table => table.id === order?.table?.id);
     return table ? table.id : "";
   };
 
+  const getCustomer = () => {
+    const customer = customers.find(customer => customer.id === order?.customer?.id);
+    return customer ? customer.id : "";
+  };
+
   const getUser = () => {
-    const user = users.find(user => user.id === order?.createdBy.id);
+    const user = users.find(user => user.id === order?.createdBy?.id);
     return user ? user.id : "";
   };
 
@@ -133,7 +165,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
                 inputProps={{ id: "table" }}
                 label={t("orders.fields.table")}
                 error={!!errors.table?.id}
-                defaultValue={getTable()}
+                value={getTable()}
                 onBlur={saveChanges}
                 onChange={(e) => {
                   setValue("table.id", e.target.value);
@@ -160,7 +192,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
                 {...field}
                 inputProps={{ id: "user" }}
                 label={t("orders.fields.user")}
-                defaultValue={getUser()}
+                value={getUser()}
                 onBlur={saveChanges}
                 onChange={(e) => {
                   const selectedUser = users.find(user => user.id === e.target.value);
@@ -188,6 +220,54 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
             )}
           />
           <FormHelperText>{errors.createdBy?.id?.message}</FormHelperText>
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel htmlFor="customer">{t("orders.fields.customer")}</InputLabel>
+          <Controller
+            control={control}
+            name="customer.id"
+            render={({ field }) => (
+              <Select
+                {...field}
+                inputProps={{ id: "customer" }}
+                label={t("orders.fields.customer")}
+                value={getCustomer()}
+                onBlur={saveChanges}
+                onChange={(e) => {
+                  const selectedCustomer = customers.find(customer => customer.id === e.target.value);
+                  if (selectedCustomer) {
+                    setValue("customer", {
+                      id: selectedCustomer.id,
+                      address: selectedCustomer.address,
+                      companyName: selectedCustomer.companyName,
+                      email: selectedCustomer.email,
+                      fiscalCode: selectedCustomer.fiscalCode,
+                      mobile: selectedCustomer.mobile,
+                      pec: selectedCustomer.pec,
+                      phone: selectedCustomer.phone,
+                      sdiCode: selectedCustomer.sdiCode,
+                      site: selectedCustomer.site,
+                      vatId: selectedCustomer.vatId,
+                      name: selectedCustomer.name,
+                      gender: selectedCustomer.gender,
+                      isActive: selectedCustomer.isActive,
+                      lastname: selectedCustomer.lastname,
+                      deleted: selectedCustomer.deleted,
+                      type: selectedCustomer.type
+                    });
+                    saveChanges();
+                  }
+                }}
+              >
+                {customers.map((customer) => (
+                  <MenuItem key={customer.id} value={customer.id}>
+                    {customer.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            )}
+          />
+          <FormHelperText>{errors.customer?.id?.message}</FormHelperText>
         </FormControl>
         <FormControl fullWidth margin="normal">
   <Controller
@@ -251,7 +331,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
                 {...field}
                 inputProps={{ id: "status" }}
                 label={t("orders.fields.status")}
-                defaultValue={getStatus()}
+                value={getStatus()}
                 onBlur={saveChanges}
                 onChange={(e) => {
                   setValue("flowStatus", e.target.value);

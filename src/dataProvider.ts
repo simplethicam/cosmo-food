@@ -1,7 +1,8 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios";
 import { stringify } from "query-string";
 import { DataProvider } from "@refinedev/core";
 import { generateFilter, generateSort } from "@refinedev/simple-rest";
+import { authProvider } from './authProvider';
 
 type MethodTypes = "get" | "delete" | "head" | "options";
 type MethodTypesWithBody = "post" | "put" | "patch";
@@ -10,20 +11,32 @@ const axiosInstance = axios.create();
 
 const TOKEN_KEY = "cosmo-auth";
 
-axios.interceptors.response.use(
-  response => response,
-  error => {
-    console.log("AXIOS INTERCEPT ERROR -> ", error)
-  }
-)
-
 const getAuthHeaders = () => {
   const token = localStorage.getItem(TOKEN_KEY);
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+// Add a response interceptor
+axiosInstance.interceptors.response.use(
+  response => response,
+  async error => {
+    if (error.code === 'ERR_NETWORK') {
+      const checkResponse = await authProvider.check();
+      if (checkResponse.authenticated) {
+        const config: AxiosRequestConfig = error.config;
+        config.headers = { ...config.headers, ...getAuthHeaders() };
+        return axiosInstance.request(config);
+      } else {
+        await authProvider.logout({});
+        window.location.href = "/login";
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const dataProvider = (
-  apiUrl: string, 
+  apiUrl?: string, 
   httpClient: AxiosInstance = axiosInstance,
 ): Omit<
   Required<DataProvider>,
@@ -72,10 +85,17 @@ export const dataProvider = (
 
     const total = +headers["x-total-count"];
 
-    return {
-      data: data.body.body,
-      total: total || data.length,
-    };
+    if(data.body === undefined) {
+      return {
+        data: data,
+        total: total || data.length,
+      };
+    } else {
+      return {
+        data: data.body.body,
+        total: total || data.length,
+      };
+    }
   },
 
   getMany: async ({ resource, ids, meta }) => {
@@ -98,8 +118,6 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
     const requestMethod = (method as MethodTypesWithBody) ?? "post";
 
-    console.log("Headers: ", headers)
-
     const { data } = await httpClient[requestMethod](url, variables, {
       headers: { 
         ...headers, 
@@ -118,10 +136,6 @@ export const dataProvider = (
     const { headers, method } = meta ?? {};
 
     const requestMethod = (method as MethodTypesWithBody) ?? "put";
-    
-    console.log("RequestMethod update: ", requestMethod)
-    
-    console.log("variables update: ", variables)
 
     const { data } = await httpClient[requestMethod](url, variables, {
       headers: { ...headers, ...getAuthHeaders() },
@@ -162,7 +176,7 @@ export const dataProvider = (
   },
 
   getApiUrl: () => {
-    return apiUrl;
+    return '';
   },
 
   custom: async ({
