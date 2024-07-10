@@ -276,7 +276,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
                       },
                     }}
                   >
-                    <TextField
+                    {/*<TextField
                       {...params}
                       label={t("search.placeholder")}
                       InputProps={{
@@ -294,7 +294,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
                       }}
                     >
                       <SearchOutlined />
-                    </IconButton>
+                    </IconButton>*/}
                   </Box>
                 );
               }}
