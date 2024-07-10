@@ -3,7 +3,7 @@ import { AuthProvider } from "@refinedev/core";
 export const TOKEN_KEY = "cosmo-auth";
 export const REFRESH_TOKEN_KEY = "cosmo-refresh";
 
-const API_BASE_URL = "https://oyr2ljag97.execute-api.eu-west-3.amazonaws.com/dev/v1";
+const API_BASE_URL = import.meta.env.VITE_AUTH_API_URL;
 
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
