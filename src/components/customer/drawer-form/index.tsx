@@ -198,8 +198,8 @@ export const CustomerDrawerForm = (props: Props) => {
                   </FormControl>
                 </Stack>
               </Box>
-              <Box>
-                <Stack spacing={3}>
+              <Box mt={1}>
+                <Stack spacing={2}>
                   <FormControl fullWidth>
                     <Controller
                       control={control}
@@ -279,32 +279,6 @@ export const CustomerDrawerForm = (props: Props) => {
               </Box>
               <Box>
                 <Stack spacing={3}>
-                  <FormControl fullWidth>
-                    <FormLabel>{t("errors.required.field", { field: "isActive" })}</FormLabel>
-                    <Controller
-                      control={control}
-                      name="isActive"
-                      defaultValue={"true"}
-                      render={({ field }) => (
-                        <ToggleButtonGroup
-                          {...field}
-                          exclusive
-                          fullWidth
-                          color="primary"
-                          onChange={(_, newValue) => {
-                            field.onChange(newValue);
-                          }}
-                        >
-                          <ToggleButton value={"true"}>
-                            {t("products.fields.isActive.true")}
-                          </ToggleButton>
-                          <ToggleButton value={"false"}>
-                            {t("products.fields.isActive.false")}
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                      )}
-                    />
-                  </FormControl>
                   <FormControl fullWidth>
                     <FormLabel>{t("errors.required.field", { field: "deleted" })}</FormLabel>
                     <Controller

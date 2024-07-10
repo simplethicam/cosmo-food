@@ -134,7 +134,7 @@
   "tables": {
     "tables": "Tables",
     "titles": {
-      "list": "Table List"
+      "list": "Tables"
     },
     "fields": {
       "id": "ID",
@@ -461,7 +461,7 @@
     "filter": {
       "title": "Filters",
       "allCategories": {
-        "label": "All Categories",
+        "label": "All",
         "placeholder": "All Categories"
       },
       "id": {
@@ -600,9 +600,9 @@
   "users": {
     "users": "Users",
     "titles": {
-      "edit": "Edit Customer",
-      "list": "Customers",
-      "show": "Customer Detail"
+      "edit": "Edit User",
+      "list": "Users",
+      "show": "User Detail"
     },
     "fields": {
       "id": "ID",
@@ -669,7 +669,7 @@
       "addresses": "Addresses",
       "address": "Address"
     },
-    "createTitle": "New customer"
+    "createTitle": "New user"
   },
   "errors": {
     "minLength": "Minimum length is {{min}}",

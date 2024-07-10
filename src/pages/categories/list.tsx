@@ -19,7 +19,7 @@ import { ICategory, IProduct } from "../../interfaces";
 import { Card, CardActionArea, CardActions, CardContent, Grid, Stack, Typography, IconButton, Divider } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useLocation } from "react-router-dom";
-import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 type View = "table" | "card";
 
@@ -33,6 +33,8 @@ export const CategoryList = ({ children }: PropsWithChildren) => {
     return view || "table";
   });
 
+  const [productsOrder, setProductsOrder] = useState<"asc" | "desc">("asc");
+
   const { dataGridProps } = useDataGrid<ICategory, HttpError>({
     resource: "categories"
   });
@@ -45,19 +47,29 @@ export const CategoryList = ({ children }: PropsWithChildren) => {
   });
   const products = productsData?.data || [];
 
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      if (productsOrder === "asc") {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+  }, [products, productsOrder]);
+
   const columns = useMemo<GridColDef<ICategory>[]>(
     () => [
       {
         field: "title",
         headerName: t("categories.fields.title"),
-        width: 232,
+        flex: 1,
       },
       {
         field: "product",
         headerName: t("categories.fields.products"),
         flex: 1,
         renderCell: function render({ row }) {
-          const categoryProducts = products.filter(
+          const categoryProducts = sortedProducts.filter(
             (product) => product.categoryId === row.id,
           );
           return (
@@ -101,13 +113,14 @@ export const CategoryList = ({ children }: PropsWithChildren) => {
       {
         field: "isActive",
         headerName: t("categories.fields.isActive.label"),
-        width: 116,
+        align: "right",
+        flex: 1,
         renderCell: function render({ row }) {
           return <CategoryStatus value={row.isActive} />;
         },
       },
     ],
-    [t, go, products, productsIsLoading, editUrl],
+    [t, go, sortedProducts, productsIsLoading, editUrl],
   );
 
   const handleViewChange = (
@@ -118,163 +131,168 @@ export const CategoryList = ({ children }: PropsWithChildren) => {
     localStorage.setItem("category-view", newView);
   };
 
+  // Media query to detect desktop screen
+  const isDesktop = useMediaQuery('(min-width:1200px)');
+
   return (
     <>
-    <RefineListView
-      breadcrumb={false}
-      headerButtons={() => [
-        <CreateButton resourceNameOrRouteName="categories" />,
-        <ToggleButtonGroup
-          key="view-toggle"
-          value={view}
-          exclusive
-          onChange={handleViewChange}
-          aria-label="view toggle"
-        >
-          <ToggleButton value="card" aria-label="card view" size="small">
-            <BorderAllOutlinedIcon />
-          </ToggleButton>
-          <ToggleButton value="table" aria-label="table view" size="small">
-            <ListOutlinedIcon />
-          </ToggleButton>
-        </ToggleButtonGroup>,
-      ]}
-    >
-      {view === "table" ? (
-        <Paper>
-          <DataGrid
-            {...dataGridProps}
-            columns={columns}
-            autoHeight
-            hideFooter
-            onRowClick={({ id }) => {
-              return go({
-                to: `${editUrl("categories", id)}`,
-                query: {
-                  to: pathname,
-                },
-                options: {
-                  keepQuery: true,
-                },
-                type: "replace",
-              });
-            }}
-          />
-        </Paper>
-      ) : (
-        <>
-        <Divider
-          sx={{
-            marginBottom: "24px",
-          }}
-        />
-        <Grid
-          container
-          spacing={3}
-        >
-          {dataGridProps.rows?.map((category: ICategory) => (
-            <Grid key={category.id} item xs={12} sm={6} md={4} lg={3}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
-                  "&:hover .edit-button": {
-                    display: "flex",
+      <RefineListView
+        breadcrumb={false}
+        headerButtons={() => [
+          <ToggleButtonGroup
+            key="view-toggle"
+            value={view}
+            exclusive
+            onChange={handleViewChange}
+            aria-label="view toggle"
+          >
+            <ToggleButton value="table" aria-label="table view" size="small">
+              <ListOutlinedIcon />
+            </ToggleButton>
+            <ToggleButton value="card" aria-label="card view" size="small">
+              <BorderAllOutlinedIcon />
+            </ToggleButton>
+          </ToggleButtonGroup>,
+          <CreateButton resourceNameOrRouteName="categories" />
+        ]}
+      >
+        {view === "table" ? (
+          <Paper>
+            <DataGrid
+              {...dataGridProps}
+              columns={isDesktop ? columns : columns.filter(column => column.field !== 'product')}
+              autoHeight
+              hideFooter
+              onRowClick={({ id }) => {
+                return go({
+                  to: `${editUrl("categories", id)}`,
+                  query: {
+                    to: pathname,
                   },
-                }}
-              >
-                <CardActionArea
-                  sx={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                  onClick={() => {
-                    go({
-                      to: `${editUrl("categories", category.id)}`,
-                      query: {
-                        to: pathname,
-                      },
-                      options: {
-                        keepQuery: true,
-                      },
-                      type: "replace",
-                    });
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1, width: "100%" }}>
-                    <Stack
-                      mb="8px"
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <Typography variant="body1" fontWeight={500}>
-                        {category.title}
-                      </Typography>
-                    </Stack>
-                    <Box display="flex" alignItems="center" gap="8px" flexWrap="wrap">
-                      {productsIsLoading &&
-                        Array.from({ length: 10 }).map((_, index) => {
-                          return (
-                            <Skeleton
-                              key={index}
-                              sx={{
-                                width: "32px",
-                                height: "32px",
-                              }}
-                              variant="rectangular"
-                            />
-                          );
-                        })}
-
-                      {!productsIsLoading &&
-                        products.filter(product => product.categoryId === category.id).map((product) => {
-                          const image = product.images?.[0];
-                          const thumbnailUrl = image?.thumbnailUrl || image?.url;
-                          return (
-                            <CustomTooltip key={product.id} title={product.name}>
-                              <Avatar
-                                sx={{
-                                  width: "32px",
-                                  height: "32px",
-                                }}
-                                variant="rounded"
-                                alt={product.name}
-                                src={thumbnailUrl}
-                              />
-                            </CustomTooltip>
-                          );
-                        })}
-                    </Box>
-                  </CardContent>
-                  <CardActions
+                  options: {
+                    keepQuery: true,
+                  },
+                  type: "replace",
+                });
+              }}
+            />
+          </Paper>
+        ) : (
+          <>
+            <Divider
+              sx={{
+                marginBottom: "24px",
+              }}
+            />
+            <Grid
+              container
+              spacing={3}
+            >
+              {dataGridProps.rows?.map((category: ICategory) => (
+                <Grid key={category.id} item xs={12} sm={6} md={4} lg={3}>
+                  <Card
                     sx={{
-                      justifyContent: "space-between",
-                      padding: "12px 16px",
-                      marginTop: "auto",
-                      borderTop: "1px solid",
-                      borderColor: (theme) => theme.palette.divider,
-                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      position: "relative",
+                      "&:hover .edit-button": {
+                        display: "flex",
+                      },
                     }}
                   >
-                    <CategoryStatus size="small" value={category.isActive} />
-                  </CardActions>
-                </CardActionArea>
-              </Card>
+                    <CardActionArea
+                      sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                      onClick={() => {
+                        go({
+                          to: `${editUrl("categories", category.id)}`,
+                          query: {
+                            to: pathname,
+                          },
+                          options: {
+                            keepQuery: true,
+                          },
+                          type: "replace",
+                        });
+                      }}
+                    >
+                      <CardContent sx={{ flexGrow: 1, width: "100%" }}>
+                        <Stack
+                          mb="8px"
+                          direction="row"
+                          justifyContent="space-between"
+                        >
+                          <Typography variant="body1" fontWeight={500}>
+                            {category.title}
+                          </Typography>
+                        </Stack>
+                        <Box display="flex" alignItems="center" gap="8px" flexWrap="wrap">
+                          {productsIsLoading &&
+                            Array.from({ length: 10 }).map((_, index) => {
+                              return (
+                                <Skeleton
+                                  key={index}
+                                  sx={{
+                                    width: "32px",
+                                    height: "32px",
+                                  }}
+                                  variant="rectangular"
+                                />
+                              );
+                            })}
+
+                          {!productsIsLoading &&
+                            sortedProducts
+                              .filter(product => product.categoryId === category.id)
+                              .map((product) => {
+                                const image = product.images?.[0];
+                                const thumbnailUrl = image?.thumbnailUrl || image?.url;
+                                return (
+                                  <CustomTooltip key={product.id} title={product.name}>
+                                    <Avatar
+                                      sx={{
+                                        width: "32px",
+                                        height: "32px",
+                                      }}
+                                      variant="rounded"
+                                      alt={product.name}
+                                      src={thumbnailUrl}
+                                    />
+                                  </CustomTooltip>
+                                );
+                              })}
+                        </Box>
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          justifyContent: "space-between",
+                          padding: "12px 16px",
+                          marginTop: "auto",
+                          borderTop: "1px solid",
+                          borderColor: (theme) => theme.palette.divider,
+                          width: "100%",
+                        }}
+                      >
+                        <CategoryStatus size="small" value={category.isActive} />
+                      </CardActions>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-          <Divider
-            sx={{
-              marginTop: "24px",
-            }}
-          />
-        </>
-      )}
-    </RefineListView>
-    {children}
+            <Divider
+              sx={{
+                marginTop: "24px",
+              }}
+            />
+          </>
+        )}
+      </RefineListView>
+      {children}
     </>
   );
 };

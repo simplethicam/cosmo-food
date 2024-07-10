@@ -67,6 +67,7 @@ export const OrderList = () => {
         field: "orderNumber",
         headerName: t("orders.fields.order"),
         description: t("orders.fields.order"),
+        flex: 1,
         renderCell: function render({ row }) {
           return <Typography>#{row.orderNumber}</Typography>;
         },
@@ -74,7 +75,7 @@ export const OrderList = () => {
       {
         field: "table",
         headerName: t("tables.tables"),
-        width: 200,
+        flex: 1,
         renderCell: function render({ row }) {
           return <Typography>{row.table?.name}</Typography>;
         },
@@ -84,7 +85,7 @@ export const OrderList = () => {
         headerName: t("orders.fields.amount"),
         headerAlign: "center",
         align: "right",
-        width: 120,
+        flex: 1,
         renderCell: function render({ row }) {
           return (
             <NumberField

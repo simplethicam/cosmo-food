@@ -1,24 +1,22 @@
-import React, { PropsWithChildren, useMemo, useState } from "react";
+import React, { PropsWithChildren, useMemo, useState, useEffect } from "react";
 import {
   HttpError,
-  useExport,
-  useGo,
-  useNavigation,
+  useList,
   useTranslate,
+  useNavigation,
+  useGo,
 } from "@refinedev/core";
 import { useLocation } from "react-router-dom";
-import { CreateButton, useDataGrid } from "@refinedev/mui";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { CreateButton } from "@refinedev/mui";
+import { DataGrid, GridColDef, GridSortModel } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
-import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
-import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import BorderAllOutlinedIcon from "@mui/icons-material/BorderAllOutlined";
 import { ICustomer } from "../../interfaces";
-import { CustomTooltip, RefineListView } from "../../components";
+import { RefineListView } from "../../components";
 import { Card, CardActionArea, CardActions, CardContent, Divider, Grid, Stack } from "@mui/material";
 import { CustomerStatus } from "../../components/customer/status";
 
@@ -34,39 +32,62 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
     return view || "table";
   });
 
-  const { dataGridProps, filters, sorters } = useDataGrid<
-    ICustomer,
-    HttpError
-  >();
+  const { data: customersData, isLoading } = useList<ICustomer, HttpError>({
+    resource: "customers",
+  });
+
+  const [sortModel, setSortModel] = useState<GridSortModel>([]);
+  const [sortedCustomers, setSortedCustomers] = useState<ICustomer[]>([]);
+
+  useEffect(() => {
+    if (customersData?.data) {
+      setSortedCustomers(customersData.data);
+    }
+  }, [customersData]);
+
+  useEffect(() => {
+    if (sortModel.length > 0 && customersData?.data) {
+      const sorted = [...customersData.data].sort((a, b) => {
+        const field = sortModel[0].field;
+        const sort = sortModel[0].sort;
+
+        const aValue = a[field as keyof ICustomer];
+        const bValue = b[field as keyof ICustomer];
+
+        if (aValue === undefined) return 1;
+        if (bValue === undefined) return -1;
+
+        if (aValue < bValue) {
+          return sort === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sort === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+      setSortedCustomers(sorted);
+    } else {
+      setSortedCustomers(customersData?.data || []);
+    }
+  }, [sortModel, customersData]);
 
   const columns = useMemo<GridColDef<ICustomer>[]>(
     () => [
       {
         field: "name",
         headerName: t("customers.fields.name"),
-        minWidth: 140,
         flex: 1,
       },
       {
         field: "lastname",
         headerName: t("customers.fields.lastname"),
-        minWidth: 140,
         flex: 1,
-      },
-      {
-        field: "email",
-        headerName: t("customers.fields.email"),
-        width: 200,
-      },
-      {
-        field: "mobile",
-        headerName: t("customers.fields.mobile"),
-        width: 120,
       },
       {
         field: "isActive",
         headerName: t("customers.fields.isActive"),
-        width: 120,
+        align: "right",
+        flex: 1,
         renderCell: function render({ row }) {
           return (
             <CustomerStatus size="small" value={row.isActive} />
@@ -76,23 +97,6 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
     ],
     [t, go, pathname, editUrl],
   );
-
-  const { isLoading, triggerExport } = useExport<ICustomer>({
-    sorters,
-    filters,
-    pageSize: 50,
-    maxItemCount: 50,
-    mapData: (item) => {
-      return {
-        id: item.id,
-        isActive: item.isActive,
-        name: item.name,
-        lastname: item.lastname,
-        email: item.email,
-        mobile: item.mobile,
-      };
-    },
-  });
 
   const handleViewChange = (
     _e: React.MouseEvent<HTMLElement>,
@@ -142,14 +146,18 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
             {t("buttons.create")}
           </CreateButton>,
         ]}
+        title={t("customers.customers")} // Ensure "Customers" title is translated
       >
         {view === "table" ? (
           <Paper>
             <DataGrid
-              {...dataGridProps}
+              rows={sortedCustomers}
               columns={columns}
               autoHeight
               hideFooter
+              sortingOrder={['asc', 'desc']}
+              sortModel={sortModel}
+              onSortModelChange={(model) => setSortModel(model)}
               onRowClick={({ id }) => {
                 return go({
                   to: `${editUrl("customers", id)}`,
@@ -166,87 +174,87 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
           </Paper>
         ) : (
           <>
-          <Divider
-            sx={{
-              marginBottom: "24px",
-            }}
-          />
-          <Grid
-            container
-            spacing={3}
-          >
-            {dataGridProps.rows?.map((customer: ICustomer) => (
-              <Grid key={customer.id} item xs={12} sm={6} md={4} lg={3}>
-                <Card
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    position: "relative",
-                    "&:hover .edit-button": {
-                      display: "flex",
-                    },
-                  }}
-                >
-                  <CardActionArea
+            <Divider
+              sx={{
+                marginBottom: "24px",
+              }}
+            />
+            <Grid
+              container
+              spacing={3}
+            >
+              {sortedCustomers.map((customer: ICustomer) => (
+                <Grid key={customer.id} item xs={12} sm={6} md={4} lg={3}>
+                  <Card
                     sx={{
-                      flexGrow: 1,
+                      height: "100%",
                       display: "flex",
                       flexDirection: "column",
-                    }}
-                    onClick={() => {
-                      go({
-                        to: `${editUrl("customers", customer.id)}`,
-                        query: {
-                          to: pathname,
-                        },
-                        options: {
-                          keepQuery: true,
-                        },
-                        type: "replace",
-                      });
+                      position: "relative",
+                      "&:hover .edit-button": {
+                        display: "flex",
+                      },
                     }}
                   >
-                    <CardContent sx={{ flexGrow: 1, width: "100%" }}>
-                      <Stack
-                        mb="8px"
-                        direction="row"
-                        justifyContent="space-between"
-                      >
-                        <Typography variant="body1" fontWeight={500}>
-                          {customer.name} {customer.lastname}
-                        </Typography>
-                        <Typography variant="body1">
-                          {customer.email}
-                        </Typography>
-                      </Stack>
-                      <Typography color="text.secondary">
-                        {customer.mobile}
-                      </Typography>
-                    </CardContent>
-                    <CardActions
+                    <CardActionArea
                       sx={{
-                        justifyContent: "space-between",
-                        padding: "12px 16px",
-                        marginTop: "auto",
-                        borderTop: "1px solid",
-                        borderColor: (theme) => theme.palette.divider,
-                        width: "100%",
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                      onClick={() => {
+                        go({
+                          to: `${editUrl("customers", customer.id)}`,
+                          query: {
+                            to: pathname,
+                          },
+                          options: {
+                            keepQuery: true,
+                          },
+                          type: "replace",
+                        });
                       }}
                     >
-                      <CustomerStatus size="small" value={customer.isActive} />
-                    </CardActions>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-          <Divider
-            sx={{
-              marginTop: "24px",
-            }}
-          />
-        </>
+                      <CardContent sx={{ flexGrow: 1, width: "100%" }}>
+                        <Stack
+                          mb="8px"
+                          direction="row"
+                          justifyContent="space-between"
+                        >
+                          <Typography variant="body1" fontWeight={500}>
+                            {customer.name} {customer.lastname}
+                          </Typography>
+                          <Typography variant="body1">
+                            {customer.email}
+                          </Typography>
+                        </Stack>
+                        <Typography color="text.secondary">
+                          {customer.mobile}
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          justifyContent: "space-between",
+                          padding: "12px 16px",
+                          marginTop: "auto",
+                          borderTop: "1px solid",
+                          borderColor: (theme) => theme.palette.divider,
+                          width: "100%",
+                        }}
+                      >
+                        <CustomerStatus size="small" value={customer.isActive} />
+                      </CardActions>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+            <Divider
+              sx={{
+                marginTop: "24px",
+              }}
+            />
+          </>
         )}
       </RefineListView>
       {children}

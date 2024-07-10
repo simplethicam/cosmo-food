@@ -61,7 +61,7 @@ export const UserEdit = () => {
     <Dialog open onClose={onClose} fullWidth maxWidth="sm">
       <form onSubmit={handleSubmit(onFinish)}>
         <DialogTitle>
-          {t("users.editTitle")}
+          {t("users.titles.edit")}
           <IconButton
             color="error"
             aria-label="close"

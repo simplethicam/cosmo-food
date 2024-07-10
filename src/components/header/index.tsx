@@ -77,7 +77,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
         }
       },
     },
-  });*/
+  });
 
   const { refetch: refetchStores } = useList<IStore>({
     resource: "stores",
@@ -128,7 +128,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
     },
   });
 
-  /*const { refetch: refetchStaff } = useList<IStaff>({
+  const { refetch: refetchStaff } = useList<IStaff>({
     resource: "staff",
     config: {
       filters: [{ field: "q", operator: "contains", value }],
@@ -161,10 +161,10 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = () => {
   useEffect(() => {
     setOptions([]);
     //refetchOrders();
-    refetchCouriers();
-    refetchStores();
+    //refetchCouriers();
+    //refetchStores();
     //refetchStaff();
-  }, [value/*, refetchOrders*/, refetchCouriers, refetchStores/*, refetchStaff*/]);
+  }, [value/*, refetchOrders, refetchCouriers, refetchStores, refetchStaff*/]);
 
   return (
     <AppBar

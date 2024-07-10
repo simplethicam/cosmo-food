@@ -40,6 +40,30 @@ export const OrderCreate = () => {
     products: [],
     amount: 0,
     description: "",
+    customer: {
+      id: "",
+      address: {
+        city: "",
+        province: "",
+        street: "",
+        zip: ""
+      },
+      companyName: "",
+      email: "",
+      fiscalCode: "",
+      mobile: "",
+      pec: "",
+      phone: "",
+      sdiCode: "",
+      site: "",
+      vatId: "",
+      name: "",
+      gender: "",
+      isActive: "",
+      lastname: "",
+      deleted: "",
+      type: "",
+    }
   });
 
   const {
@@ -84,7 +108,7 @@ export const OrderCreate = () => {
       const updatedOrder = {
         ...order,
         products: updatedProducts,
-        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0).toFixed(2))
+        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0)/*.toFixed(2)*/)
       };
 
       setOrder(updatedOrder);
@@ -117,12 +141,12 @@ export const OrderCreate = () => {
     const currentOrder = updatedOrder || order;
     if (currentOrder) {
       const data = watch();
-      const amount = currentOrder.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2);
+      const amount = currentOrder.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
       const finalOrder = {
         ...currentOrder,
         ...data,
         products: currentOrder.products,
-        amount: parseFloat(amount),
+        amount: amount,
         table: currentOrder.table ?? { id: "", name: "", position: "" },
         createdBy: currentOrder.createdBy ?? { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
         deletedBy: currentOrder.deletedBy ?? { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
@@ -135,102 +159,8 @@ export const OrderCreate = () => {
 
   const totalAmount = useMemo(() => {
     if (!order || !order.products) return 0;
-    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2);
+    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
   }, [order]);
-
-  const renderButtons = () => {
-    switch (order?.flowStatus) {
-      case "OPEN":
-        return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              variant="outlined"
-              size="small"
-              color="warning"
-              startIcon={<AccessAlarmIcon />}
-              onClick={() => handleMutate("READY")}
-            >
-              {t("buttons.ready")}
-            </Button>
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(() => handleSave(order))}
-              variant="contained"
-              color="primary"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
-            >
-              {t("buttons.cancel")}
-            </Button>
-          </Stack>
-        );
-      case "READY":
-        return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              variant="outlined"
-              size="small"
-              color="success"
-              startIcon={<PointOfSaleIcon />}
-              onClick={() => handleMutate("CLOSED")}
-            >
-              {t("buttons.close")}
-            </Button>
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(() => handleSave(order))}
-              variant="contained"
-              color="primary"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
-            >
-              {t("buttons.cancel")}
-            </Button>
-          </Stack>
-        );
-      case "CLOSED":
-        return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(() => handleSave(order))}
-              variant="contained"
-            >
-              {t("buttons.save")}
-            </Button>
-          </Stack>
-        );
-      default:
-        return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(() => handleSave(order))}
-              variant="contained"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
-            >
-              {t("buttons.cancel")}
-            </Button>
-          </Stack>
-        );
-    }
-  };
 
   return (
     <>
@@ -257,7 +187,24 @@ export const OrderCreate = () => {
             {t("orders.order")} #{order?.orderNumber}
           </Typography>
         }
-        headerButtons={[renderButtons()]}
+        headerButtons={
+          <Stack key="actions" direction="row" spacing="8px">
+            <Button
+              {...saveButtonProps}
+              onClick={handleSubmit(() => handleSave(order))}
+              variant="contained"
+            >
+              {t("buttons.save")}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => list("orders")}
+            >
+              {t("buttons.cancel")}
+            </Button>
+          </Stack>
+        }
       >
         <Grid container spacing={3}>
           <Grid xs={12} md={6} lg={8} height="max-content">

@@ -26,11 +26,6 @@ export interface IIdentity {
   avatar: string;
 }
 
-export interface IAddress {
-  text: string;
-  coordinate: [string | number, string | number];
-}
-
 export interface IFile {
   lastModified?: number;
   name: string;
@@ -72,6 +67,7 @@ export interface IOrder {
   products: IProduct[];
   amount: number;
   description: string;
+  customer: ICustomer;
 }
 
 export interface IUserInfo {
@@ -158,6 +154,8 @@ export interface IAddress {
   province: string;
   street: string;
   zip: string;
+  text?: string;
+  coordinate?: [string | number, string | number];
 }
 
 export interface ICustomer {
