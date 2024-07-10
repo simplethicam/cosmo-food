@@ -28,7 +28,7 @@ jobs:
         run: npx tsc
 
       - name: Build project
-        run: npm run build
+        run: npm run build:dev
 
       - name: Deploy to S3
         env:
