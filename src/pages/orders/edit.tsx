@@ -133,7 +133,9 @@ export const OrderEdit = () => {
   const handleSave = () => {
     if (order) {
       const data = watch();
-      onFinish({ ...order, ...data, products: order.products }); // Passa l'array aggiornato dei prodotti
+      order.amount = parseFloat(totalAmount.toString());
+      data.amount = parseFloat(totalAmount.toString());
+      onFinish({ ...order, ...data, products: order.products });
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslate, useList } from "@refinedev/core";
-import { Button, Dialog, DialogTitle, DialogContent, IconButton, Autocomplete, TextField, DialogActions, List, ListItem, ListItemText, CircularProgress, Box } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, IconButton, Autocomplete, TextField, DialogActions, List, ListItem, ListItemText, CircularProgress, Box, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -91,16 +91,25 @@ export const ProductAdd: React.FC<ProductAddProps> = ({ open, onClose, order }) 
         <CloseIcon />
       </IconButton>
       <DialogContent>
-        <Autocomplete
-          {...autocompleteProps}
-          value={selectedCategory}
-          onChange={(event, newValue: ICategory | null) => {
-            setSelectedCategory(newValue);
-          }}
-          getOptionLabel={(option: ICategory) => option.title}
-          options={[{ id: 'all', title: t("All"), isActive: false }, ...(categoriesData?.data || [])]}
-          renderInput={(params) => <TextField {...params} label={t("Category")} margin="normal" variant="outlined" />}
-        />
+        <FormControl fullWidth margin="normal" variant="outlined">
+          <InputLabel>{t("Category")}</InputLabel>
+          <Select
+            value={selectedCategory?.id || 'all'}
+            onChange={(event) => {
+              const selected = categoriesData?.data.find(category => category.id === event.target.value) || { id: 'all', title: t("All"), isActive: false };
+              setSelectedCategory(selected);
+            }}
+            label={t("Category")}
+          >
+            <MenuItem value="all">{t("All")}</MenuItem>
+            {(categoriesData?.data || []).map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <List>
           {filteredProducts.map(product => (
             <ListItem key={product.id} disablePadding>
