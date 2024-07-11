@@ -145,7 +145,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
   };
 
   const getStatus = () => {
-    return order?.flowStatus ?? "new";
+    return order?.flowStatus ?? "OPEN";
   };
 
   if (!order) return null;
@@ -329,7 +329,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
             render={({ field }) => (
               <Select
                 {...field}
-                inputProps={{ id: "status" }}
+                inputProps={{ id: "flowStatus" }}
                 label={t("orders.fields.status")}
                 value={getStatus()}
                 onBlur={saveChanges}
@@ -338,9 +338,10 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
                   saveChanges();
                 }}
               >
-                <MenuItem value="new">{t("orders.status.new")}</MenuItem>
-                <MenuItem value="ready">{t("orders.status.ready")}</MenuItem>
-                <MenuItem value="close">{t("orders.status.evadi")}</MenuItem>
+                <MenuItem value="OPEN">{t("orders.status.OPEN")}</MenuItem>
+                <MenuItem value="READY">{t("orders.status.READY")}</MenuItem>
+                <MenuItem value="CLOSED">{t("orders.status.CLOSED")}</MenuItem>
+                <MenuItem value="CANCELLED">{t("orders.status.CANCELLED")}</MenuItem>
               </Select>
             )}
           />

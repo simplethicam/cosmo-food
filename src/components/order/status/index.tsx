@@ -1,89 +1,65 @@
+import Chip, { ChipProps } from "@mui/material/Chip";
 import { useTranslate } from "@refinedev/core";
-import Chip from "@mui/material/Chip";
-import type { ChipProps } from "@mui/material/Chip";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MopedIcon from "@mui/icons-material/Moped";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import { useTheme } from "@mui/material/styles";
-import { red, orange, cyan, blue, green } from "@mui/material/colors";
+import { green, red, blue, grey, orange } from "@mui/material/colors";
 
-type OrderStatusProps = {
-  status?: "Pending" | "Ready" | "On The Way" | "Delivered" | "Cancelled";
+type Props = {
+  value: string; // Stato dell'ordine come stringa
+  size?: ChipProps["size"];
 };
 
-export const OrderStatus = ({ status }: OrderStatusProps) => {
+const getColorAndIcon = (status: string, isDarkMode: boolean) => {
+  switch (status.toUpperCase()) {
+    case "OPEN":
+      return {
+        color: isDarkMode ? blue[200] : blue[800],
+        icon: <NewReleasesIcon sx={{ fill: isDarkMode ? blue[200] : blue[600] }} />,
+      };
+    case "READY":
+      return {
+        color: "#ffa726",
+        icon: <AccessAlarmIcon sx={{ fill: "#ffa726" }} />,
+      };
+    case "CLOSED":
+      return {
+        color: "#66bb6a",
+        icon: <PointOfSaleIcon sx={{ fill: "#66bb6a" }} />,
+      };
+    case "CANCELLED":
+      return {
+        color: "#f44336",
+        icon: <DeleteForeverIcon sx={{ fill: "#f44336" }} />,
+      };
+    default:
+      return {
+        color: isDarkMode ? grey[200] : grey[800],
+        icon: <AssignmentTurnedInIcon sx={{ fill: isDarkMode ? grey[200] : grey[600] }} />,
+      };
+  }
+};
+
+export const OrderStatus = (props: Props) => {
   const t = useTranslate();
   const { palette } = useTheme();
   const isDarkMode = palette.mode === "dark";
 
-  let color = "";
-  let icon: ChipProps["icon"];
-
-  switch (status) {
-    case "Pending":
-      color = isDarkMode ? orange[200] : orange[800];
-      icon = (
-        <WatchLaterIcon
-          sx={{
-            fill: isDarkMode ? orange[200] : orange[600],
-          }}
-        />
-      );
-      break;
-    case "Ready":
-      color = isDarkMode ? cyan[200] : cyan[800];
-      icon = (
-        <NotificationsIcon
-          sx={{
-            fill: isDarkMode ? cyan[200] : cyan[600],
-          }}
-        />
-      );
-      break;
-    case "On The Way":
-      color = isDarkMode ? blue[200] : blue[800];
-      icon = (
-        <MopedIcon
-          sx={{
-            fill: isDarkMode ? blue[200] : blue[600],
-          }}
-        />
-      );
-      break;
-    case "Delivered":
-      color = isDarkMode ? green[200] : green[800];
-      icon = (
-        <CheckCircleIcon
-          sx={{
-            fill: isDarkMode ? green[200] : green[600],
-          }}
-        />
-      );
-      break;
-    case "Cancelled":
-      color = isDarkMode ? red[200] : red[800];
-      icon = (
-        <CancelIcon
-          sx={{
-            fill: isDarkMode ? red[200] : red[600],
-          }}
-        />
-      );
-      break;
-  }
+  const { color, icon } = getColorAndIcon(props.value, isDarkMode);
 
   return (
     <Chip
-      variant="outlined"
-      size="small"
+      label={t(`orders.status.${props.value}`)}
       icon={icon}
+      variant="outlined"
+      size={props?.size || "small"}
       sx={{
         borderColor: color,
         color: color,
       }}
-      label={t(`enum.orderStatuses.${status}`)}
     />
   );
 };

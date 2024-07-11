@@ -28,7 +28,7 @@ export const OrderCreate = () => {
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState<IOrder>({
     id: "",
-    flowStatus: "new", // Set the initial status to "new"
+    flowStatus: "OPEN",
     companyId: "",
     deletedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
     table: { id: "", name: "", position: "" },

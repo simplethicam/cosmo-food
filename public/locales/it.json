@@ -419,11 +419,14 @@
     "status": {
       "new": "Nuovo",
       "ready": "Pronto",
-      "evadi": "Chiudi",
-      "OPEN": "Aperte",
+      "OPEN": "Nuovo",
       "READY": "Pronto",
-      "CLOSE": "Chiuso",
-      "CLOSED": "Chiuso"
+      "CLOSED": "Chiuso",
+      "closed": "Chiuso",
+      "NEW": "Nuovo",
+      "open": "Nuovo",
+      "CANCELLED": "Annullato",
+      "cancelled": "Annullato"
     },
     "total": "Totale"
   },

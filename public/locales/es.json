@@ -355,7 +355,7 @@
     "fields": {
       "orderNumber": "Order #",
       "orderID": "Order ID",
-      "status": "Status",
+      "status": "Estado",
       "store": "Store",
       "user": "User",
       "products": "Products",
@@ -419,11 +419,14 @@
     "status": {
       "new": "Nuevo",
       "ready": "Listo",
-      "evadi": "Cerca",
-      "OPEN": "Abierto",
+      "OPEN": "Nuevo",
       "READY": "Listo",
-      "CLOSE": "Cerca",
-      "CLOSED": "Cerrado"
+      "CLOSED": "Cerrado",
+      "closed": "Cerrado",
+      "NEW": "Nuevo",
+      "open": "Nuevo",
+      "CANCELLED": "Cancelado",
+      "cancelled": "Cancelado"
     },
     "total": "Total"
   },

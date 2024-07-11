@@ -20,12 +20,12 @@ import MenuItem from "@mui/material/MenuItem";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import BorderAllOutlinedIcon from "@mui/icons-material/BorderAllOutlined";
 import { IOrder, IOrderFilterVariables } from "../../interfaces";
-import { RefineListView } from "../../components";
+import { OrderStatus, RefineListView } from "../../components";
 import { Card, CardActionArea, CardActions, CardContent, Grid, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 type View = "table" | "card";
 
-const statuses = ["ALL", "NEW", "READY", "CLOSE"];
+const statuses = ["ALL", "OPEN", "READY", "CLOSED", "CANCELLED"];
 
 export const OrderList = () => {
   const t = useTranslate();
@@ -96,6 +96,15 @@ export const OrderList = () => {
               value={row.amount}
             />
           );
+        },
+      },
+      {
+        field: "status",
+        headerName: t("orders.fields.status"),
+        align: "right",
+        flex: 1,
+        renderCell: function render({ row }) {
+          return <OrderStatus value={row.flowStatus}></OrderStatus>;
         },
       },
     ],
@@ -246,6 +255,7 @@ export const OrderList = () => {
                         }}
                       />
                     </Stack>
+                    <Typography color="text.secondary">{order.table?.name}</Typography>
                   </CardContent>
                   <CardActions
                     sx={{
@@ -257,7 +267,7 @@ export const OrderList = () => {
                       width: "100%",
                     }}
                   >
-                    <Typography variant="body2">{order.table?.name}</Typography>
+                    <OrderStatus value={order.flowStatus}></OrderStatus>
                   </CardActions>
                 </CardActionArea>
               </Card>

@@ -423,10 +423,14 @@
     "status": {
       "new": "New",
       "ready": "Ready",
-      "evadi": "Close",
-      "OPEN": "Open",
+      "closed": "Closed",
+      "NEW": "New",
+      "OPEN": "New",
       "READY": "Ready",
-      "CLOSED": "Closed"
+      "CLOSED": "Closed",
+      "open": "New",
+      "CANCELLED": "Cancelled",
+      "cancelled": "Cancelled"
     },
     "total": "Total"
   },

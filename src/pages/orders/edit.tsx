@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Divider from "@mui/material/Divider";
@@ -38,12 +39,12 @@ export const OrderEdit = () => {
       id: order?.id,
       redirect: false,
       onMutationSuccess: () => {
-        // Optional: handle success logic, e.g., redirect or show a success message
+        // Optional: handle success logic, e.g., redirect o mostra un messaggio di successo
       },
     },
     defaultValues: {
       id: "",
-      flowStatus: "open",
+      flowStatus: "OPEN",
       companyId: "",
       deletedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
       table: { id: "", name: "", position: "" },
@@ -83,7 +84,7 @@ export const OrderEdit = () => {
       const updatedOrder = {
         ...order,
         products: updatedProducts,
-        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0)/*.toFixed(2)*/)
+        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0).toFixed(2))
       };
 
       setOrder(updatedOrder);
@@ -104,7 +105,11 @@ export const OrderEdit = () => {
   const record = queryResult.data?.data;
 
   useEffect(() => {
-  }, [queryResult]);
+    if (record) {
+      setOrder(record);
+      reset(record);
+    }
+  }, [record, reset]);
 
   const { mutate } = useUpdate();
 
@@ -132,21 +137,14 @@ export const OrderEdit = () => {
     }
   };
 
-  useEffect(() => {
-    if (record) {
-      setOrder(record);
-      reset(record);
-    }
-  }, [record, reset]);
-
   const totalAmount = useMemo(() => {
     if (!order || !order.products) return 0;
-    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
+    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2);
   }, [order]);
 
   const renderButtons = () => {
     switch (order?.flowStatus.toUpperCase()) {
-      case "NEW":
+      case "OPEN":
         return (
           <Stack key="actions" direction="row" spacing="8px">
             <Button
@@ -154,22 +152,15 @@ export const OrderEdit = () => {
               size="small"
               color="warning"
               startIcon={<AccessAlarmIcon />}
-              onClick={() => handleMutate("ready")}
+              onClick={() => handleMutate("READY")}
             >
               {t("buttons.ready")}
             </Button>
             <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(handleSave)}
-              variant="contained"
-              color="primary"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
               variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
+              color="error"
+              startIcon={<DeleteForeverIcon />}
+              onClick={() => handleMutate("CANCELLED")}
             >
               {t("buttons.cancel")}
             </Button>
@@ -183,57 +174,23 @@ export const OrderEdit = () => {
               size="small"
               color="success"
               startIcon={<PointOfSaleIcon />}
-              onClick={() => handleMutate("close")}
+              onClick={() => handleMutate("CLOSED")}
             >
               {t("buttons.close")}
             </Button>
             <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(handleSave)}
-              variant="contained"
-              color="primary"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
               variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
+              color="error"
+              startIcon={<DeleteForeverIcon />}
+              onClick={() => handleMutate("CANCELLED")}
             >
               {t("buttons.cancel")}
-            </Button>
-          </Stack>
-        );
-      case "CLOSE":
-        return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(handleSave)}
-              variant="contained"
-            >
-              {t("buttons.save")}
             </Button>
           </Stack>
         );
       default:
         return (
-          <Stack key="actions" direction="row" spacing="8px">
-            <Button
-              {...saveButtonProps}
-              onClick={handleSubmit(handleSave)}
-              variant="contained"
-            >
-              {t("buttons.save")}
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => list("orders")}
-            >
-              {t("buttons.cancel")}
-            </Button>
-          </Stack>
+          <></>
         );
     }
   };
@@ -241,16 +198,24 @@ export const OrderEdit = () => {
   return (
     <>
       <ProductAdd open={open} onClose={handleClose} order={order} />
-      <ListButton
-        variant="outlined"
+      <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}
         sx={{
-          borderColor: "GrayText",
-          color: "GrayText",
-          backgroundColor: "transparent",
-        }}
-        startIcon={<ArrowBack />}
-        onClick={() => list("orders")}
-      />
+          marginTop: "24px",
+        }}>
+        <ListButton
+          variant="outlined"
+          sx={{
+            borderColor: "GrayText",
+            color: "GrayText",
+            backgroundColor: "transparent",
+          }}
+          startIcon={<ArrowBack />}
+          onClick={() => list("orders")}
+        />
+        <Stack direction="row" spacing={2} alignItems="center">
+          {renderButtons()}
+        </Stack>
+      </Stack>
       <Divider
         sx={{
           marginBottom: "24px",
@@ -263,18 +228,25 @@ export const OrderEdit = () => {
             {t("orders.order")} #{record?.orderNumber}
           </Typography>
         }
-        headerButtons={[renderButtons()]}
+        headerButtons={
+          <Button
+            {...saveButtonProps}
+            onClick={handleSubmit(handleSave)}
+            variant="contained"
+            color="primary"
+          >
+            {t("buttons.save")}
+          </Button>}
       >
         <Grid container spacing={3}>
           <Grid xs={12} md={6} lg={8} height="max-content">
             <Paper
               sx={{
-                marginTop: theme.spacing(3),
                 paddingBottom: theme.spacing(2),
               }}
             >
               <Button
-                variant="contained"
+                variant="outlined"
                 size="medium"
                 color="primary"
                 startIcon={<AddIcon />}

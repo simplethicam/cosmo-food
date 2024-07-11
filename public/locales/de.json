@@ -345,11 +345,14 @@
     "status": {
       "new": "Neu",
       "ready": "Bereit",
-      "evadi": "Schließen",
-      "OPEN": "Offen",
+      "OPEN": "Neu",
       "READY": "Bereit",
-      "CLOSE": "Schließen",
-      "CLOSED": "Geschlossen"
+      "CLOSED": "Geschlossen",
+      "closed": "Geschlossen",
+      "NEW": "Neu",
+      "open": "Neu",
+      "CANCELLED": "Abgesagt",
+      "cancelled": "Abgesagt"
     },
     "total": "Gesamt"
   },
