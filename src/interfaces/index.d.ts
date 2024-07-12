@@ -57,10 +57,10 @@ export interface IOrder {
   id: string;
   flowStatus: string;
   companyId: string;
-  deletedBy: IUser;
+  deletedBy: IUserInfo;
   table: ITable;
-  updatedBy: IUser;
-  createdBy: IUser;
+  updatedBy: IUserInfo;
+  createdBy: IUserInfo;
   isActive: boolean;
   orderNumber: string;
   deleted: boolean;

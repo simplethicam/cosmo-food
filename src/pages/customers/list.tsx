@@ -86,6 +86,7 @@ export const CustomerList = ({ children }: PropsWithChildren) => {
       {
         field: "isActive",
         headerName: t("customers.fields.isActive"),
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: function render({ row }) {

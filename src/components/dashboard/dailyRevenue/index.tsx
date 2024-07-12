@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Tooltip,
   ResponsiveContainer,
@@ -38,7 +39,7 @@ export const DailyRevenue = (props: Props) => {
           dataKey="value"
           fontSize={12}
           tickFormatter={(value) => {
-            return `$${Number(value) / 1000}k`;
+            return `${Number(value) / 1000}k €`;
           }}
         />
         <defs>

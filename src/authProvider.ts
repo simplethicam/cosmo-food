@@ -225,7 +225,7 @@ export const authProvider: AuthProvider = {
     return {
       id: userInfo.sub,
       name: userInfo.name,
-      avatar: userInfo.avatar || "https://i.pravatar.cc/150",
+      avatar: userInfo.avatar || null,
       email: userInfo.email,
     };
   },

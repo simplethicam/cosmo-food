@@ -113,6 +113,7 @@ export const CategoryList = ({ children }: PropsWithChildren) => {
       {
         field: "isActive",
         headerName: t("categories.fields.isActive.label"),
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: function render({ row }) {

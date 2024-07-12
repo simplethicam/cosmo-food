@@ -77,6 +77,7 @@ export const TableList = ({ children }: PropsWithChildren) => {
       {
         field: "isActive",
         headerName: t("products.fields.isActive.label"),
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: function render({ row }) {

@@ -83,7 +83,7 @@ export const OrderList = () => {
       {
         field: "amount",
         headerName: t("orders.fields.amount"),
-        headerAlign: "center",
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: function render({ row }) {
@@ -101,6 +101,7 @@ export const OrderList = () => {
       {
         field: "status",
         headerName: t("orders.fields.status"),
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: function render({ row }) {

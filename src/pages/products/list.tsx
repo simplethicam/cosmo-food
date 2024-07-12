@@ -99,6 +99,7 @@ export const ProductList = ({ children }: PropsWithChildren) => {
       {
         field: "isActive",
         headerName: t("products.fields.isActive.label"),
+        headerAlign: "right",
         align: "right",
         flex: 1,
         renderCell: ({ row }) => <ProductStatus value={row.isActive} />,

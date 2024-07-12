@@ -1,120 +1,88 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import {
-  UpdatePasswordFormTypes,
-  useNavigation,
   useTranslate,
-  useUpdate,
-  useUpdatePassword,
+  useList,
+  useNavigation,
+  useGo,
 } from "@refinedev/core";
-import { NumberField, useDataGrid } from "@refinedev/mui";
-import CheckOutlined from "@mui/icons-material/CheckOutlined";
-import CloseOutlined from "@mui/icons-material/CloseOutlined";
+import { NumberField } from "@refinedev/mui";
+import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
-import { IOrder, ICustomer } from "../../../interfaces";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { IOrder } from "../../../interfaces";
 import { getUniqueListWithCount } from "../../../utils";
+import { OrderStatus } from "../../order";
+import { useLocation } from "react-router-dom";
 
 export const RecentOrders: React.FC = () => {
   const t = useTranslate();
-  const { show } = useNavigation();
-  const { mutate } = useUpdate();
-  const { mutate: updatePassword } =
-    useUpdatePassword<Record<string, string>>();
+  const go = useGo();
+  const { pathname } = useLocation();
+  const { editUrl } = useNavigation();
 
-  const { dataGridProps } = useDataGrid<IOrder>({
+  const { data, isLoading } = useList<IOrder>({
     resource: "orders",
-    initialSorter: [
-      {
-        field: "createdAt",
-        order: "desc",
+    config: {
+      filters: [
+        {
+          field: "status.text",
+          operator: "eq",
+          value: "Pending",
+        },
+      ],
+      sort: [
+        {
+          field: "createdAt",
+          order: "desc",
+        },
+      ],
+      pagination: {
+        current: 1,
+        pageSize: 10,
       },
-    ],
-    pagination: {
-      mode: "off",
     },
-    permanentFilter: [
-      {
-        field: "status.text",
-        operator: "eq",
-        value: "Pending",
-      },
-    ],
-    syncWithLocation: false,
   });
+
+  const [filteredOrders, setFilteredOrders] = useState<IOrder[]>([]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setFilteredOrders(data.data);
+    }
+  }, [data]);
 
   const columns = useMemo<GridColDef<IOrder>[]>(
     () => [
       {
         field: "orderNumber",
+        headerName: t("orders.fields.order"),
+        description: t("orders.fields.order"),
+        flex: 1,
         renderCell: function render({ row }) {
           return <Typography>#{row.orderNumber}</Typography>;
         },
-        width: 88,
       },
-      /*{
-        field: "customer",
-        width: 220,
-        renderCell: function render({ row }) {
-          return (
-            <Stack spacing="4px">
-              <Typography>{row.customer.companyName}</Typography>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  whiteSpace: "pre-wrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  display: "-webkit-box",
-                  WebkitLineClamp: "2",
-                  WebkitBoxOrient: "vertical",
-                  minWidth: "100px",
-                }}
-              >
-                {row.customer.address.text}
-              </Typography>
-            </Stack>
-          );
-        },
-      },*/
       {
-        field: "products",
+        field: "table",
+        headerName: t("tables.tables"),
         flex: 1,
         renderCell: function render({ row }) {
-          const products = getUniqueListWithCount({
-            list: row.products,
-            field: "id",
-          });
-          return (
-            <Stack spacing={1}>
-              {products.map((product) => (
-                <Typography key={product.id} whiteSpace="nowrap">
-                  {product.name}
-                  <Typography
-                    component="span"
-                    color="GrayText"
-                    sx={{ ml: "4px" }}
-                  >
-                    x{product.count}
-                  </Typography>
-                </Typography>
-              ))}
-            </Stack>
-          );
+          return <Typography>{row.table?.name}</Typography>;
         },
       },
       {
         field: "amount",
+        headerName: t("orders.fields.amount"),
+        headerAlign: "right",
         align: "right",
-        width: 80,
+        flex: 1,
         renderCell: function render({ row }) {
           return (
             <NumberField
               options={{
-                currency: "EUR",
+                currency: 'EUR',
                 style: "currency",
-                notation: "standard",
               }}
               value={row.amount}
             />
@@ -122,76 +90,44 @@ export const RecentOrders: React.FC = () => {
         },
       },
       {
-        field: "actions",
-        type: "actions",
-        width: 80,
-        getActions: ({ id }) => [
-          <GridActionsCellItem
-            key={1}
-            icon={<CheckOutlined color="success" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.accept")}
-            showInMenu
-            onClick={() => {
-              mutate({
-                resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 2,
-                    text: "Ready",
-                  },
-                },
-              });
-            }}
-          />,
-          <GridActionsCellItem
-            key={2}
-            icon={<CloseOutlined color="error" />}
-            sx={{ padding: "2px 6px" }}
-            label={t("buttons.reject")}
-            showInMenu
-            onClick={() =>
-              mutate({
-                resource: "orders",
-                id,
-                values: {
-                  status: {
-                    id: 5,
-                    text: "Cancelled",
-                  },
-                },
-              })
-            }
-          />,
-        ],
+        field: "status",
+        headerName: t("orders.fields.status"),
+        headerAlign: "right",
+        align: "right",
+        flex: 1,
+        renderCell: function render({ row }) {
+          return <OrderStatus value={row.flowStatus}></OrderStatus>;
+        },
       },
     ],
-    [t, mutate],
+    [t, go],
   );
 
   return (
-    <DataGrid
-      {...dataGridProps}
-      onRowClick={(row) => show("orders", row.id)}
-      columns={columns}
-      columnHeaderHeight={0}
-      pageSizeOptions={[10, 25, 50, 100]}
-      sx={{
-        height: "100%",
-        border: "none",
-        "& .MuiDataGrid-row": {
-          cursor: "pointer",
-          maxHeight: "max-content !important",
-          minHeight: "max-content !important",
-        },
-        "& .MuiDataGrid-cell": {
-          maxHeight: "max-content !important",
-          minHeight: "max-content !important",
-          padding: "16px",
-          alignItems: "flex-start",
-        },
-      }}
-    />
+    <Paper sx={{ backgroundColor: "transparent", boxShadow: "none" }}>
+      <DataGrid
+        rows={filteredOrders}
+        columns={columns}
+        autoHeight
+        hideFooter
+        onRowClick={({ id }) => {
+          return go({
+            to: `${editUrl("orders", id)}`,
+            query: {
+              to: pathname,
+            },
+            options: {
+              keepQuery: true,
+            },
+            type: "replace",
+          });
+        }}
+        sx={{
+          "& .MuiDataGrid-row": {
+            cursor: "pointer",
+          },
+        }}
+      />
+    </Paper>
   );
 };
