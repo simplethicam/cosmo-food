@@ -10,6 +10,8 @@ type MethodTypesWithBody = "post" | "put" | "patch";
 const axiosInstance = axios.create();
 
 const TOKEN_KEY = "cosmo-auth";
+let errorCount = 0;
+const MAX_RETRIES = 3;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem(TOKEN_KEY);
@@ -21,6 +23,12 @@ axiosInstance.interceptors.response.use(
   response => response,
   async error => {
     if (error.code === 'ERR_NETWORK') {
+      if (errorCount >= MAX_RETRIES) {
+        return Promise.reject(error);
+      }
+
+      errorCount++;
+
       const checkResponse = await authProvider.check();
       if (checkResponse.authenticated) {
         const config: AxiosRequestConfig = error.config;
