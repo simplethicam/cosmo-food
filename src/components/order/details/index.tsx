@@ -31,6 +31,29 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
   const users = usersData?.data ?? [];
   const customers = customersData?.data ?? [];
 
+  tables.sort((a, b) => {
+    const nameA = a.name.match(/(\d+)/);
+    const nameB = b.name.match(/(\d+)/);
+  
+    const numA = nameA ? parseInt(nameA[0], 10) : 0;
+    const numB = nameB ? parseInt(nameB[0], 10) : 0;
+  
+    const nameWithoutNumberA = a.name.replace(/\d+/g, '').trim();
+    const nameWithoutNumberB = b.name.replace(/\d+/g, '').trim();
+  
+    if (nameWithoutNumberA < nameWithoutNumberB) return -1;
+    if (nameWithoutNumberA > nameWithoutNumberB) return 1;
+  
+    if (numA < numB) return -1;
+    if (numA > numB) return 1;
+  
+    if (a.position !== undefined && b.position !== undefined && a.position < b.position) return -1;
+    if (a.position !== undefined && b.position !== undefined && a.position > b.position) return 1;
+  
+    return 0;
+  });
+  
+
   const {
     handleSubmit,
     control,
@@ -104,12 +127,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
         updatedOrder.createdBy = {
           id: selectedUser.id,
           email: selectedUser.email,
-          password: selectedUser.password,
-          name: selectedUser.name,
-          createdBy: selectedUser.createdBy,
-          familyName: selectedUser.familyName,
-          companyId: selectedUser.companyId,
-          isActive: selectedUser.isActive
+          name: selectedUser.name
         };
       }
     }
@@ -174,7 +192,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
               >
                 {tables.map((table) => (
                   <MenuItem key={table.id} value={table.id}>
-                    {table.name}
+                    {table.name + " - " + table.position}
                   </MenuItem>
                 ))}
               </Select>
@@ -200,12 +218,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
                     setValue("createdBy", {
                       id: selectedUser.id,
                       email: selectedUser.email,
-                      password: selectedUser.password,
-                      name: selectedUser.name,
-                      createdBy: selectedUser.createdBy,
-                      familyName: selectedUser.familyName,
-                      companyId: selectedUser.companyId,
-                      isActive: selectedUser.isActive
+                      name: selectedUser.name
                     });
                     saveChanges();
                   }

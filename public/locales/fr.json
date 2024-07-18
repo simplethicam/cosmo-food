@@ -368,7 +368,13 @@
       "phone": "Téléphone",
       "deliveryTime": "Heure de livraison",
       "waiter": "Serveur",
-      "description": "Description"
+      "description": "Description",
+      "productName": "Nom du produit",
+      "quantity": "Quantité",
+      "price": "Prix",
+      "totalPrice": "Prix ​​total",
+      "table": "Tableau",
+      "category": "Catégorie"
     },
     "filter": {
       "title": "Filtres",
@@ -400,7 +406,10 @@
         "placeholder": "Rechercher par numéro de commande"
       },
       "submit": "Filtrer",
-      "allStatuses": "Tous"
+      "allStatuses": "Tous",
+      "product": {
+        "all": "Tous"
+      }
     },
     "courier": {
       "deliveryTime": "Heure de livraison",

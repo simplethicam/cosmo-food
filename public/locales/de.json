@@ -298,7 +298,13 @@
       "status": "Status",
       "store": "Geschäft",
       "user": "Nutzer",
-      "waiter": "Bedienung"
+      "waiter": "Bedienung",
+      "productName": "Produktname",
+      "quantity": "Menge",
+      "price": "Preis",
+      "totalPrice": "Gesamtpreis",
+      "table": "Tisch",
+      "category": "Kategorie"
     },
     "filter": {
       "createdAt": {
@@ -330,7 +336,10 @@
         "label": "Nutzer",
         "placeholder": "Nutzer suchen"
       },
-      "allStatuses": "Alle"
+      "allStatuses": "Alle",
+      "product": {
+        "all": "Alle"
+      }
     },
     "neworder": "Neue Bestellung",
     "order": "Order",

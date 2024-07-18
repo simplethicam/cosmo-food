@@ -368,7 +368,13 @@
       "phone": "Telefono",
       "deliveryTime": "Orario di Consegna",
       "waiter": "Cameriere",
-      "description": "Descrizione"
+      "description": "Descrizione",
+      "productName": "nome del prodotto",
+      "quantity": "Quantità",
+      "price": "Prezzo",
+      "totalPrice": "Prezzo totale",
+      "table": "Tavolo",
+      "category": "Categorie"
     },
     "filter": {
       "title": "Filtri",
@@ -400,7 +406,10 @@
         "placeholder": "Cerca Numero Ordine"
       },
       "submit": "Filtra",
-      "allStatuses": "Tutto"
+      "allStatuses": "Tutto",
+      "product": {
+        "all": "Tutto"
+      }
     },
     "courier": {
       "deliveryTime": "Orario di Consegna",

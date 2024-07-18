@@ -71,10 +71,11 @@ export interface IOrder {
 }
 
 export interface IUserInfo {
+  id?: string;
   name: string;
   date?: string;
   email: string;
-  username: string;
+  username?: string;
 }
 
 export interface IOrderProduct {

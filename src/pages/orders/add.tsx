@@ -92,16 +92,16 @@ export const ProductAdd: React.FC<ProductAddProps> = ({ open, onClose, order }) 
       </IconButton>
       <DialogContent>
         <FormControl fullWidth margin="normal" variant="outlined">
-          <InputLabel>{t("Category")}</InputLabel>
+          <InputLabel>{t("orders.fields.category")}</InputLabel>
           <Select
             value={selectedCategory?.id || 'all'}
             onChange={(event) => {
-              const selected = categoriesData?.data.find(category => category.id === event.target.value) || { id: 'all', title: t("All"), isActive: false };
+              const selected = categoriesData?.data.find(category => category.id === event.target.value) || { id: 'all', title: t("orders.filter.product.all"), isActive: false };
               setSelectedCategory(selected);
             }}
-            label={t("Category")}
+            label={t("orders.fields.category")}
           >
-            <MenuItem value="all">{t("All")}</MenuItem>
+            <MenuItem value="all">{t("orders.filter.product.all")}</MenuItem>
             {(categoriesData?.data || []).map((category) => (
               <MenuItem key={category.id} value={category.id}>
                 {category.title}

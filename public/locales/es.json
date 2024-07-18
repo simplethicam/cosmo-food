@@ -368,10 +368,19 @@
       "phone": "Phone",
       "deliveryTime": "Delivery Time",
       "waiter": "Waiter",
-      "description": "Description"
+      "description": "Description",
+      "productName": "nombre del producto",
+      "quantity": "Cantidad",
+      "price": "Precio",
+      "totalPrice": "Precio total",
+      "table": "Mesa",
+      "category": "Categoría"
     },
     "filter": {
       "title": "Filters",
+      "product": {
+        "all": "Todo"
+      },
       "search": {
         "label": "Search",
         "placeholder": "Order Number, User, etc."

@@ -369,7 +369,12 @@
       "deliveryTime": "Delivery Time",
       "waiter": "Waiter",
       "description": "Description",
-      "table": "Table"
+      "table": "Table",
+      "productName": "Product Name",
+      "quantity": "Quantity",
+      "price": "Price",
+      "totalPrice": "Total Price",
+      "category": "Category"
     },
     "filter": {
       "title": "Filters",
@@ -404,7 +409,10 @@
       "allStatuses": "All",
       "OPEN": "Open",
       "READY": "Ready",
-      "CLOSE": "Close"
+      "CLOSE": "Close",
+      "product": {
+        "all": "All"
+      }
     },
     "courier": {
       "deliveryTime": "Delivery Time",

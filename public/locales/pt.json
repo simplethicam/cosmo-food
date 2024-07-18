@@ -368,7 +368,13 @@
       "phone": "Telefone",
       "deliveryTime": "Tempo de Entrega",
       "waiter": "Garçom",
-      "description": "Descrição"
+      "description": "Descrição",
+      "productName": "Nome do Produto",
+      "quantity": "Quantidade",
+      "price": "Preço",
+      "totalPrice": "Preço total",
+      "table": "Mesa",
+      "category": "Categoria"
     },
     "filter": {
       "title": "Filtros",
@@ -400,7 +406,10 @@
         "placeholder": "Buscar Número do Pedido"
       },
       "submit": "Filtrar",
-      "allStatuses": "Todos"
+      "allStatuses": "Todos",
+      "product": {
+        "all": "Todos"
+      }
     },
     "courier": {
       "deliveryTime": "Tempo de Entrega",
