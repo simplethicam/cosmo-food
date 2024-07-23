@@ -361,9 +361,14 @@
       "NEW": "Neu",
       "open": "Neu",
       "CANCELLED": "Abgesagt",
-      "cancelled": "Abgesagt"
+      "cancelled": "Abgesagt",
+      "free": "Frei",
+      "FREE": "Frei"
     },
-    "total": "Gesamt"
+    "total": "Gesamt",
+    "buttons": {
+      "back": "Zurück"
+    }
   },
   "pages": {
     "error": {

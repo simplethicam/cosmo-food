@@ -1,12 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { HttpError, useTranslate, useCreate } from "@refinedev/core";
-import { ListButton } from "@refinedev/mui";
 import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import Divider from "@mui/material/Divider";
@@ -14,10 +11,10 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import { OrderDetails, OrderProducts, Card } from "../../components";
 import { RefineListView } from "../../components";
-import { IOrder, IProduct, IUser } from "../../interfaces";
+import { IOrder, IProduct } from "../../interfaces";
 import { ProductAdd } from "./add";
 import { useForm } from "@refinedev/react-hook-form";
-import { useNavigation } from "@refinedev/core";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const generateUniqueOrderNumber = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -25,15 +22,21 @@ const generateUniqueOrderNumber = () => {
 
 export const OrderCreate = () => {
   const t = useTranslate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const tableId = location.state?.tableId || "";
+  const tableName = location.state?.tableName || "";
+  const fromTableList = !!location.state?.from;
+  
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState<IOrder>({
     id: "",
     flowStatus: "OPEN",
     companyId: "",
-    deletedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
-    table: { id: "", name: "", position: "" },
-    updatedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
-    createdBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
+    deletedBy: { id: "", email: "", name: "" },
+    table: { id: tableId, name: tableName, position: "" },
+    updatedBy: { id: "", email: "", name: "" },
+    createdBy: { id: "", email: "", name: "" },
     isActive: true,
     orderNumber: generateUniqueOrderNumber(),
     deleted: false,
@@ -85,7 +88,11 @@ export const OrderCreate = () => {
     defaultValues: order,
   });
 
-  const { list } = useNavigation();
+  useEffect(() => {
+    if (fromTableList) {
+      setValue("table", order.table);
+    }
+  }, [fromTableList, setValue, order.table]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -108,7 +115,7 @@ export const OrderCreate = () => {
       const updatedOrder = {
         ...order,
         products: updatedProducts,
-        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0)/*.toFixed(2)*/)
+        amount: Number(updatedProducts.reduce((total, product) => total + product.price * (product.quantity || 1), 0))
       };
 
       setOrder(updatedOrder);
@@ -132,7 +139,7 @@ export const OrderCreate = () => {
     setOrder((prevOrder) => {
       if (!prevOrder) return prevOrder;
       const updatedOrder = { ...prevOrder, flowStatus: status };
-      handleSave(updatedOrder); // Pass the updated order to handleSave
+      handleSave(updatedOrder);
       return updatedOrder;
     });
   };
@@ -141,7 +148,7 @@ export const OrderCreate = () => {
     const currentOrder = updatedOrder || order;
     if (currentOrder) {
       const data = watch();
-      const amount = currentOrder.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
+      const amount = currentOrder.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0);
       const finalOrder = {
         ...currentOrder,
         ...data,
@@ -159,13 +166,13 @@ export const OrderCreate = () => {
 
   const totalAmount = useMemo(() => {
     if (!order || !order.products) return 0;
-    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0)/*.toFixed(2)*/;
+    return order.products.reduce((total, product) => total + (product.price * (product.quantity || 1)), 0).toFixed(2);
   }, [order]);
 
   return (
     <>
       <ProductAdd open={open} onClose={handleClose} order={order} />
-      <ListButton
+      <Button
         variant="outlined"
         sx={{
           borderColor: "GrayText",
@@ -173,8 +180,10 @@ export const OrderCreate = () => {
           backgroundColor: "transparent",
         }}
         startIcon={<ArrowBack />}
-        onClick={() => list("orders")}
-      />
+        onClick={() => navigate(-1)}
+      >
+        {t("orders.buttons.back")}
+      </Button>
       <Divider
         sx={{
           marginBottom: "24px",
@@ -199,7 +208,7 @@ export const OrderCreate = () => {
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => list("orders")}
+              onClick={() => navigate(-1)}
             >
               {t("buttons.cancel")}
             </Button>
@@ -238,7 +247,7 @@ export const OrderCreate = () => {
             <Card title={t("orders.titles.orderDetails")}>
               <OrderDetails order={order} onUpdate={handleDetailsUpdate} />
             </Card>
-          </Grid>
+          </Grid> 
         </Grid>
       </RefineListView>
     </>

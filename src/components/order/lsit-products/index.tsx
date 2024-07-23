@@ -27,7 +27,7 @@ export const OrderProducts: React.FC<OrderProductsProps> = ({ order }) => {
             <TableCell>{product.name}</TableCell>
             <TableCell>{product.quantity}</TableCell>
             <TableCell>{product.price}</TableCell>
-            <TableCell>{(product.price * product.quantity).toFixed(2)}</TableCell>
+            <TableCell>€{(product.price * product.quantity).toFixed(2)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

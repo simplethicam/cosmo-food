@@ -5,6 +5,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import CheckIcon from '@mui/icons-material/Check';
 import { useTheme } from "@mui/material/styles";
 import { green, red, blue, grey, orange } from "@mui/material/colors";
 
@@ -34,6 +35,11 @@ const getColorAndIcon = (status: string, isDarkMode: boolean) => {
       return {
         color: "#f44336",
         icon: <DeleteForeverIcon sx={{ fill: "#f44336" }} />,
+      };
+    case "FREE":
+      return {
+        color: "#66bb6a",
+        icon: <CheckIcon sx={{ fill: "#66bb6a" }} />,
       };
     default:
       return {

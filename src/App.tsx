@@ -30,7 +30,7 @@ import { CustomerList, CustomerCreate, CustomerEdit } from "./pages/customers";
 import { AuthPage } from "./pages/auth";
 import { ProductEdit, ProductList, ProductCreate } from "./pages/products";
 import { CategoryList, CategoryCreate, CategoryEdit } from "./pages/categories";
-import { TableCreate, TableList, TableEdit } from "./pages/tables";
+import { TableCreate, TableEdit, TableList } from "./pages/tables";
 import { ColorModeContextProvider } from "./contexts";
 import { Header, Title } from "./components";
 import { UserCreate, UserEdit, UserList } from "./pages/users";
@@ -86,6 +86,18 @@ const App: React.FC = () => {
                 },
               },
               {
+                name: "tables",
+                list: "/tables",
+                create: "/tables/new",
+                edit: "/tables/:id/edit",
+                meta: {
+                  url: TABLES_API_URL,
+                  resource: "table",
+                  all: "",
+                  icon: <TableBarIcon />,
+                },
+              },
+              {
                 name: "orders",
                 list: "/orders",
                 create: "/orders/new",
@@ -131,18 +143,6 @@ const App: React.FC = () => {
                   resource: "category",
                   all: "",
                   icon: <LabelOutlinedIcon />,
-                },
-              },
-              {
-                name: "tables",
-                list: "/tables",
-                create: "/tables/new",
-                edit: "/tables/:id/edit",
-                meta: {
-                  url: TABLES_API_URL,
-                  resource: "table",
-                  all: "",
-                  icon: <TableBarIcon />,
                 },
               },
               {

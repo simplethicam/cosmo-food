@@ -49,6 +49,7 @@ export const ProductAdd: React.FC<ProductAddProps> = ({ open, onClose, order }) 
   useEffect(() => {
     if (selectedCategory && selectedCategory.id !== 'all') {
       const filtered = productsData?.data.filter(product => product.categoryId === selectedCategory.id);
+      console.log("FILTERED -> ", filtered)
       setFilteredProducts(filtered || []);
     } else {
       setFilteredProducts(productsData?.data || []);
@@ -65,13 +66,22 @@ export const ProductAdd: React.FC<ProductAddProps> = ({ open, onClose, order }) 
   const handleSave = () => {
     const selectedProducts = Object.keys(productQuantities)
       .filter(productId => productQuantities[productId] > 0)
-      .map(productId => ({
-        product: filteredProducts.find(product => product.id === productId)!,
-        quantity: productQuantities[productId],
-      }));
+      .map(productId => {
+        const product = filteredProducts.find(product => product.id === productId);
+        if (!product) {
+          console.error(`Product with id ${productId} not found in filteredProducts`);
+          return null;
+        }
+        return {
+          product,
+          quantity: productQuantities[productId],
+        };
+      })
+      .filter(item => item !== null); // Filtra gli elementi nulli
+  
     onClose(selectedProducts);
   };
-
+  
   const handleClose = () => {
     onClose([]);
   };

@@ -27,7 +27,7 @@ export const OrderDetails = ({ order, onUpdate }: Props) => {
   const { data: usersData } = useList<IUser>({ resource: "users" });
   const { data: customersData } = useList<ICustomer>({ resource: "customers" });
 
-  const tables = tablesData?.data ?? [];
+  const tables = (tablesData?.data ?? []).filter(table => table.isActive);
   const users = usersData?.data ?? [];
   const customers = customersData?.data ?? [];
 

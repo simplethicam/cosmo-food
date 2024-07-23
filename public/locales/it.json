@@ -134,7 +134,7 @@
   "tables": {
     "tables": "Tavoli",
     "titles": {
-      "list": "Tabelle"
+      "list": "Tavoli"
     },
     "fields": {
       "id": "ID",
@@ -435,9 +435,14 @@
       "NEW": "Nuovo",
       "open": "Nuovo",
       "CANCELLED": "Annullato",
-      "cancelled": "Annullato"
+      "cancelled": "Annullato",
+      "free": "Libero",
+      "FREE": "Libero"
     },
-    "total": "Totale"
+    "total": "Totale",
+    "buttons": {
+      "back": "Indietro"
+    }
   },
   "products": {
     "products": "Prodotti",

@@ -435,9 +435,14 @@
       "NEW": "Nuevo",
       "open": "Nuevo",
       "CANCELLED": "Cancelado",
-      "cancelled": "Cancelado"
+      "cancelled": "Cancelado",
+      "free": "Gratis",
+      "FREE": "Gratis"
     },
-    "total": "Total"
+    "total": "Total",
+    "buttons": {
+      "back": "Atrás"
+    }
   },
   "products": {
     "products": "Products",

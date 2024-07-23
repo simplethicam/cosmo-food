@@ -438,9 +438,14 @@
       "CLOSED": "Closed",
       "open": "New",
       "CANCELLED": "Cancelled",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "free": "Free",
+      "FREE": "Free"
     },
-    "total": "Total"
+    "total": "Total",
+    "buttons": {
+      "back": "Back"
+    }
   },
   "products": {
     "products": "Products",

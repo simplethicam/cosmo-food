@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { HttpError, useNavigation, useShow, useTranslate, useUpdate } from "@refinedev/core";
-import { ListButton } from "@refinedev/mui";
+import { HttpError, useShow, useTranslate, useUpdate } from "@refinedev/core";
 import { useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -18,9 +17,11 @@ import { RefineListView } from "../../components";
 import { IOrder, IProduct, Nullable } from "../../interfaces";
 import { ProductAdd } from "./add";
 import { useForm } from "@refinedev/react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export const OrderEdit = () => {
-  const t = useTranslate();
+  const t = useTranslate(); 
+  const navigate = useNavigate(); // Usa useNavigate
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState<IOrder | undefined>();
 
@@ -46,10 +47,10 @@ export const OrderEdit = () => {
       id: "",
       flowStatus: "OPEN",
       companyId: "",
-      deletedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
+      deletedBy: { id: "", email: "", name: ""},
       table: { id: "", name: "", position: "" },
-      updatedBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
-      createdBy: { id: "", email: "", password: "", name: "", createdBy: { name: "", email: "", username: "" }, familyName: "", companyId: "", isActive: true },
+      updatedBy: { id: "", email: "", name: ""},
+      createdBy: { id: "", email: "", name: ""},
       isActive: true,
       orderNumber: "",
       deleted: false,
@@ -58,8 +59,6 @@ export const OrderEdit = () => {
       description: "",
     },
   });
-
-  const { list } = useNavigation();
 
   const handleClickOpen = () => {
     if (order) {
@@ -125,6 +124,7 @@ export const OrderEdit = () => {
           ...order,
           ...data,
           flowStatus: status,
+          isActive: status === "CLOSED" || status === "CANCELLED" ? false : order.isActive,
         },
       });
     }
@@ -204,7 +204,7 @@ export const OrderEdit = () => {
         sx={{
           marginTop: "24px",
         }}>
-        <ListButton
+        <Button
           variant="outlined"
           sx={{
             borderColor: "GrayText",
@@ -212,8 +212,10 @@ export const OrderEdit = () => {
             backgroundColor: "transparent",
           }}
           startIcon={<ArrowBack />}
-          onClick={() => list("orders")}
-        />
+          onClick={() => navigate(-1)}
+          >
+            {t("orders.buttons.back")}
+          </Button>
         <Stack direction="row" spacing={2} alignItems="center">
           {renderButtons()}
         </Stack>
